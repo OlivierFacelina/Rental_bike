@@ -30,7 +30,7 @@ public static function db_connect(): PDO|PDOException
             ]);
         }
         return self::$instance;
-    } catch (\PDOException $ex) {
+    } catch (PDOException $ex) {
         echo sprintf('La connexion a échouée avec l\'erreur %s', $ex->getMessage());
         die();
     }
