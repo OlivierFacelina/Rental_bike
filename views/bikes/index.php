@@ -11,8 +11,8 @@
                 <img class="card-img-top" src="<?= $bike->photo?>" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Registration number : <?= $bike->registration_number?></h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <p class="card-text"><?= $bike->description ?></p>
+                    <a href="?path=bikes.details&bike_id=<?= $bike->bike_id ?>">Détails</a>
                 </div>
             </div>
             <?php $counter++; ?>
