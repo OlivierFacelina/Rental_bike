@@ -10,17 +10,12 @@ use Exception;
 class Users {
     private PDO $db;
     public function __construct(
-        private int $student_id = 0, 
-        private string $INE = '', 
+        private int $suser_id = 0, 
         private string $firstname = '',
         private string $lastname = '',
-        private string $birthdate = '',
-        private string $phone = '',
-        private string $email = '',
-        private string $address = '',
-        private string $postal_code = '',
-        private string $city = '',
-        private string $grade = '',
+        private string $login = '', 
+        private string $password = '',
+        private string $role_id = '',
     ) {
         $this->db = Database::db_connect();
     }
@@ -33,6 +28,9 @@ class Users {
         if(property_exists($this, $name)) {
             return $this->$name;
         }
+    }
+    public function update_password(){
+
     }
 
     public function all(string $search = ''): array

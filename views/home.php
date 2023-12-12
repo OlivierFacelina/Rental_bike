@@ -17,4 +17,4 @@
                         </div>
                         <div class="swiper-slide">
                              -->
-        </section>
+</section>
