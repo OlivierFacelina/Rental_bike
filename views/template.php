@@ -28,7 +28,7 @@
                         </div>
                         <div class="navigation__right">
                             <button type="button">Réservation</button>
-                            <button type="button">connexion</button>
+                            <button type="button"><a href="?path=users.index">Connexion</a></button>
                         </div>
                 </nav>
         </header>

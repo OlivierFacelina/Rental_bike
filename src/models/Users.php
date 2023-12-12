@@ -15,7 +15,7 @@ class Users {
         private string $lastname = '',
         private string $login = '', 
         private string $password = '',
-        private string $role_id = '',
+        private string $role_id = ''
     ) {
         $this->db = Database::db_connect();
     }
@@ -29,9 +29,37 @@ class Users {
             return $this->$name;
         }
     }
-    public function update_password(){
+    public function updatePassword()
+{
+    $sql = "SELECT `user_id`, `password` FROM `users`";
+    $stmt = $this->db->prepare($sql);
 
+    if (!$stmt->execute()) {
+        throw new Exception('La requête a échoué');
     }
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $user_id = $row['user_id'];
+        $password = $row['password'];
+
+        // Hasher le mot de passe
+        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+        // Mettre à jour le mot de passe hashé dans la table
+        $update_query = "UPDATE users SET password = :hashed_password WHERE user_id = :user_id";
+        $update_stmt = $this->db->prepare($update_query);
+        $update_stmt->bindParam(':hashed_password', $hashed_password, PDO::PARAM_STR);
+        $update_stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+
+        if (!$update_stmt->execute()) {
+            throw new Exception('La mise à jour du mot de passe a échoué pour l\'utilisateur avec l\'ID ' . $user_id);
+        }
+    }
+    return $stmt->fetchAll();
+
+    // Vous pouvez retourner quelque chose si nécessaire, sinon, vous pouvez laisser vide.
+}
+
 
     public function all(string $search = ''): array
     {

@@ -37,7 +37,6 @@ class Bikes {
 
     public function all(string $search = ''): array
     {
-
         $parms = [];
 
         $sql = "SELECT 
