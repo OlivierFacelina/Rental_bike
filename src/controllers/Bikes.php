@@ -11,10 +11,10 @@ public function index()
     $bikeModel = new BikesModel();
     
     // liste des étdutiants dans la bdd
-    $bike = $bikeModel->all();
+    $bikes = $bikeModel->all();
     $title = 'Accueil';
 
-    $this->render('bikes/index', compact('bike', 'title'));
+    $this->render('bikes/index', compact('bikes', 'title'));
 }
 
 public function edit()
