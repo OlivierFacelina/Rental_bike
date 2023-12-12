@@ -7,6 +7,7 @@
         <div class="card-body">
             <h5 class="card-title">Registration number : <?= $bike->registration_number?></h5>
             <p class="card-text"><?= $bike->description ?></p>
+            <a href="index.php">Retour</a>
         </div>
     </div>
 </div>
