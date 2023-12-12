@@ -41,7 +41,7 @@ class Bikes {
         $parms = [];
 
         $sql = "SELECT 
-                    `bike_id`, `registration_number`, `availability`, `photo` 
+                    `bike_id`, `registration_number`, `availability`, `photo`, `description` 
                 FROM `bikes`";
         $stmt = $this->db->prepare($sql);
         if (!$stmt->execute($parms)) {
@@ -58,15 +58,15 @@ class Bikes {
      * @param integer $student_id
      * @return object
      */
-    public function find(int $student_id)
+    public function find(int $bike_id)
     {
         $sql = "SELECT 
-                    `INE`, `firstname`, `lastname`, 
-                    `birthdate`, DATE_FORMAT(`birthdate`, '%d/%m/%Y') AS formated_birthdate,  `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students` WHERE `student_id` = :student_id";
+                    `bike_id`, `registration_number`, `availability`, 
+                    `photo`, `description`
+                FROM `bikes` WHERE `bike_id` = :bike_id";
         $stmt = $this->db->prepare($sql);
         // Lier le paramètre avec la valeur envoyée
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
+        $stmt->bindValue(':bike_id', $bike_id, PDO::PARAM_INT);
         // Exécuter la requête
         if (!$stmt->execute()) {
             throw new Exception('La requête a échouée');
