@@ -92,25 +92,21 @@ class Bikes {
         // Exécuter la requête
         return $stmt->execute($data);
     }
-    public function create($registration_number, $availability, $photo, $description)
+    public function create(array $data)
     {
         $sql = "INSERT INTO `bikes`(
                     `registration_number`, 
                     `availability`, 
                     `photo`,  
-                    `description`, 
+                    `description`)
                 VALUES (
                     :registration_number, 
                     :availability, 
                     :photo,  
                     :description)"; 
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':registration_number', $registration_number, PDO::PARAM_STR);
-        $stmt->bindValue(':availability', $availability, PDO::PARAM_BOOL);
-        $stmt->bindValue(':photo', $photo);
-        $stmt->bindValue(':description', $description, PDO::PARAM_STR);
         // Exécuter la requête
-        return $stmt->execute();
+        return $stmt->execute($data);
     }
 
     public function delete(int $student_id)

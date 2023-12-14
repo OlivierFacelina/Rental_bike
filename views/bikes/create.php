@@ -1,10 +1,10 @@
 <?php ob_start()?>
 
 <div class="container mt-5 mb-5">
-    <form class="mx-auto">
+    <form class="mx-auto" method="post">
         <div class="form-group">
-        <label for="registration">Numéro d'immatriculation</label>
-        <input type="text" class="form-control w-25" id="registration" name="registration" placeholder="Saisissez le numéro d'immatriculation">
+        <label for="registration_number">Numéro d'immatriculation</label>
+        <input type="text" class="form-control w-25" id="registration_number" name="registration_number" placeholder="Saisissez le numéro d'immatriculation">
         </div>
         <div class="form-group mt-3">
         <label for="availability">Disponibilité (saisissez 0 pour non disponible, saisissez 1 pour disponible)</label>

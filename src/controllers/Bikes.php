@@ -57,24 +57,23 @@ public function create()
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $data = $_POST;
-        // var_dump($data);
         // Validation des données utilisateur
         $args = array(
             'registration_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'availability' => FILTER_VALIDATE_BOOLEAN,
+            'availability' => FILTER_VALIDATE_INT,
             'photo' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'description' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
         );
         // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
 
-        // var_dump($validatedData);
+        var_dump($validatedData);
         // Explosion du tableau en variables
         extract($validatedData);
 
-        // on rétire la clé student_id
-        unset($validatedData['student_id']);
-        // var_dump($validatedData);
+        // // on rétire la clé student_id
+        // unset($validatedData['student_id']);
+        // // var_dump($validatedData);
 
         try {
             // Mise à jour dans la bdd
