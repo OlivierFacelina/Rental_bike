@@ -2,7 +2,7 @@
 <div class="bikes mt-5">
     <div class="title d-flex justify-content-center">
         <h3 class="bikes__title text-center mx-5">Découvrez nos vélos</h3>
-        <button type="submit" class="add-bikes mx-3">Ajouter</button>
+        <a href="?path=bikes.create" class="add-bikes mx-3">Ajouter</a>
     </div>
     <?php $counter = 0; ?>
     <div class="bikes__card mt-5 d-flex justify-content-center">

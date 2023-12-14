@@ -48,56 +48,22 @@ public function create()
 {
     $bikeModel  = new BikesModel();
 
-    $firstname = '';
-    $lastname = '';
-    $birthdate = '';
-    $email = '';
-    $phone = '';
-    $address = '';
-    $postal_code = '';
-    $city = '';
-    $grade = '';
-    try {
-        // $student = get_student_by_id($db);
-    } catch (Exception $ex) {
-        $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-        header('Location: index.php');
-        exit();
-    }
+    $registration_number = '';
+    $availability = '';
+    $photo = '';
+    $description = '';
 
     // Vérifier qu'il existe une requête POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
         $data = $_POST;
-        var_dump($data);
+        // var_dump($data);
         // Validation des données utilisateur
         $args = array(
-            'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
+            'registration_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'availability' => FILTER_VALIDATE_BOOLEAN,
+            'photo' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'description' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
         );
         // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
@@ -108,13 +74,9 @@ public function create()
 
         // on rétire la clé student_id
         unset($validatedData['student_id']);
-        var_dump($validatedData);
+        // var_dump($validatedData);
 
         try {
-            if (is_null($email) || is_null($postal_code)) {
-                throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-            }
-
             // Mise à jour dans la bdd
             if ($bikeModel ->create($validatedData)) {
                 // Créer la notification a envoyé à l'utilisateur
@@ -125,9 +87,9 @@ public function create()
         } catch (Exception $ex) {
             var_dump($ex);
         }
-        $title = 'Ajouter un étudiant';
-        $this->render('student/create', compact('title'));
     }
+    $title = 'Ajouter un vélo';
+    $this->render('bikes/create', compact('title'));
 }
 
 public function delete()

@@ -13,48 +13,42 @@
 </head>
 
 <body>
+    <header class="container">
+        <nav class="navigation d-flex justify-content-between py-4">
+            <div class="navigation__left">
+                <a href=""><img src="" alt="" srcset="">logo</a>
+            </div>
+            <div class="navigation__center">
+                <a href="http://" target="_blank" rel="noopener noreferrer">Home</a>
+                <a href="http://" target="_blank" rel="noopener noreferrer">Nos vélos</a>
+                <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
+            </div>
+            <div class="navigation__right">
+                <button type="button">Réservation</button>
+                <button type="button"><a href="?path=users.index">Connexion</a></button>
+            </div>
+        </nav>
+    </header>
     <main>
-        <header class="container">
-            <nav class="navigation d-flex justify-content-between py-4">
-                <div class="navigation__left">
-                    <a href=""><img src="" alt="" srcset="">logo</a>
-                </div>
-                <div class="navigation__center">
-                    <a href="http://" target="_blank" rel="noopener noreferrer">Home</a>
-                    <a href="http://" target="_blank" rel="noopener noreferrer">Nos vélos</a>
-                    <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
-                </div>
-                <div class="navigation__right">
-                    <button type="button">Réservation</button>
-                    <button type="button"><a href="?path=users.index">Connexion</a></button>
-                </div>
-            </nav>
-        </header>
         <?= $content ?>
     </main>
     <footer>
-        <div class="frame-32">
-            <div class="frame-32__rectangle-37"></div>
-            <div class="frame-32__frame-20">
-                <img class="frame-32___1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-2" src="_1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-20.png" />
-                <div class="frame-32__frame-18">
-                    <div class="frame-32__navigation">Navigation</div>
-                    <div class="frame-32__home">Home</div>
-                    <div class="frame-32__nos-v-los">Nos vélos</div>
-                    <div class="frame-32__about-us">About us</div>
-                </div>
-                <div class="frame-32__frame-19">
-                    <div class="frame-32__horraires">Horraires</div>
-                    <div class="frame-32__en-semaine-de-8-h-20-h">En semaine de 8h à 20h</div>
-                    <div class="frame-32__confidentialit">Confidentialité</div>
-                    <div class="frame-32__cgu">CGU</div>
-                    <div class="frame-32__politique-de-confidentialit">
-                        Politique de confidentialité
-                    </div>
-                </div>
+        <div class="frame-20">
+            <img class="_1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-2" src="_1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-20.png" />
+            <div class="frame-18">
+                <div class="navigation">Navigation</div>
+                <div class="home">Home</div>
+                <div class="nos-v-los">Nos vélos</div>
+                <div class="about-us">About us</div>
+            </div>
+            <div class="frame-19">
+                <div class="horraires">Horraires</div>
+                <div class="en-semaine-de-8-h-20-h">En semaine de 8h à 20h</div>
+                <div class="confidentialit">Confidentialité</div>
+                <div class="cgu">CGU</div>
+                <div class="politique-de-confidentialit">Politique de confidentialité</div>
             </div>
         </div>
-
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="./assets/js/app.js"></script>
