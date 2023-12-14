@@ -10,14 +10,14 @@ public function index()
 
     $usersModel = new UsersModel();
     
-    // liste des étdutiants dans la bdd
-    $password = $usersModel->updatePassword();
-    var_dump($password);
+    // fonction pour crypter le smots de passe 
+    // $password = $usersModel->updatePassword();
+    // var_dump($password);
     // Recherche
 
     $title = 'Authentification';
 
-    $this->render('users/index', compact('password', 'title'));
+    $this->render('users/index', compact( 'title'));
 }
 
 public function edit()
