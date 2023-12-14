@@ -15,204 +15,137 @@ public function index()
     // var_dump($password);
     // Recherche
 
+    // isset($_POST["login"]) && !empty($_POST["login"])
+    //recupération des données du champs d'authentification
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = [];
+        if (isset($_POST) && !empty($_POST)) {
+            var_dump($_POST);
+            $login = filter_input(INPUT_POST,"login",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if (!$login) {
+                var_dump('il n\'y pas de chiffrre dans cette vaiable');
+                $errors ["login"] = 'il n\'y pas de chiffrre dans cette vaiable';
+            }
+            $password = $_POST["password"];
+            // $password_hashed = password_hash($password, PASSWORD_BCRYPT);
+            var_dump($password);
+            //appell de la fonction d'authetification
+            $userAuth = $usersModel -> authUser($login);
+            if (password_verify($password , $userAuth -> password)) {
+                var_dump("mot de passe correct");
+                $user_role = $userAuth -> role_id;
+                    if ($user_role == 2 ) {
+                        redirectToRoute('/');
+                    } else {
+                        redirectToRoute('users.dashboard');
+                    }
+                    
+            } else {
+                var_dump("mot de passe incorrect");
+            }
+          
+            var_dump($userAuth);
+            // var_dump($userAuth -> password);
+        }
+    }
+
+
+
+
     $title = 'Authentification';
 
     $this->render('users/index', compact( 'title'));
 }
+public function all(){
+    $usersModel = new UsersModel();
+    //fonction pour avoir tout les utilisatuers dans le dshboard
+
+    $all_user = $usersModel -> all_user();
+    // var_dump($all_user);
+
+    $title = 'Dashboard';
+
+    $this->render('users/dashboard', compact( 'title','all_user'));
+}
 
 public function edit()
 {
-    $student_id = $_GET['student_id'] ?? null;
+    $user_id = $_GET['user_id'] ?? null;
 
-    $student_id = filter_var($student_id, FILTER_VALIDATE_INT);
+    $user_id = filter_var($user_id, FILTER_VALIDATE_INT);
 
-    if (is_null($student_id)) {
-        header('Location: index.php');
-        exit();
-    }
+    // if (is_null($user_id)) {
+    //     header('Location: index.php');
+    //     exit();
+    // }
 
-    $student = null;
+    $user = null;
     $usersModel  = new UsersModel();
+    // $user_details = $usersModel -> find($user_id);
+    // var_dump($user_details);
 
     try {
-        $student = $usersModel ->find($student_id);
+        $user_details = $usersModel -> find($user_id);
     } catch (Exception $ex) {
-        $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-        header('Location: index.php');
-        exit();
+        // $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
+        redirectToRoute('/');
+
     }
 
-    // Vérifier qu'il existe une requête POST
+    // // Vérifier qu'il existe une requête POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        var_dump($_POST);
+        //extrction des données 
+        $firstname = filter_input(INPUT_POST,"firstname",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $lastname = filter_input(INPUT_POST,"lastname",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $login = filter_input(INPUT_POST,"login",FILTER_VALIDATE_INT);
+        //Vérifions si l'utilisateur a bien modifié au moins un champ
+        
+        var_dump($firstname,$lastname,$login);
+            if (!empty($firstname) && !empty($lastname) && (!empty($login)) && preg_match('/^\d{4}$/', $login)) {
+               var_dump("tout fonctionne ");
+               $usersModel -> edit($firstname,$lastname,$login,$user_id);
+                redirectToRoute('/');
 
-        $data = array_merge($_POST, $_GET);
-
-        // var_dump($data);
-        // Validation des données utilisateur
-        $args = array(
-            'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
-        );
-        // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
-        $validatedData = filter_var_array($data, $args);
-        // var_dump($validatedData);
-        // Explosion du tableau en variables
-        extract($validatedData);
-
-        try {
-            if (is_null($email) || is_null($postal_code) | is_null($student_id)) {
-                throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
+                       //         // Créer la notification a envoyé à l'utilisateur
+        //         // $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
+        //         // header('Location: index.php');
+        //         // exit();
+        //     }
+               
             }
-
-            // Mise à jour dans la bdd
-            if ($usersModel ->update($validatedData)) {
-                // Créer la notification a envoyé à l'utilisateur
-                $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
-                header('Location: index.php');
-                exit();
+            else {
+                var_dump("ça marche pas ");
             }
-        } catch (Exception $ex) {
-            //throw $th;
-        }
     }
     $title = 'Editer';
 
-    $this->render('student/edit', compact('student', 'title'));
+    $this->render('users/edit', compact('user_details', 'title'));
 }
-
-public function create()
-{
-    $usersModel  = new UsersModel();
-
-    $firstname = '';
-    $lastname = '';
-    $birthdate = '';
-    $email = '';
-    $phone = '';
-    $address = '';
-    $postal_code = '';
-    $city = '';
-    $grade = '';
-    try {
-        // $student = get_student_by_id($db);
-    } catch (Exception $ex) {
-        $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-        header('Location: index.php');
-        exit();
-    }
-
-    // Vérifier qu'il existe une requête POST
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
-        $data = $_POST;
-        var_dump($data);
-        // Validation des données utilisateur
-        $args = array(
-            'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
-        );
-        // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
-        $validatedData = filter_var_array($data, $args);
-
-        // var_dump($validatedData);
-        // Explosion du tableau en variables
-        extract($validatedData);
-
-        // on rétire la clé student_id
-        unset($validatedData['student_id']);
-        var_dump($validatedData);
-
+public function delete()
+    {
+        $usersModel  = new UsersModel();
+        // Suppression d'un étudiant | à faire avant l'affichage de liste pour que les données afficher soit à jour par rapport au contenu de la BDD
         try {
-            if (is_null($email) || is_null($postal_code)) {
-                throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-            }
-
-            // Mise à jour dans la bdd
-            if ($usersModel ->create($validatedData)) {
-                // Créer la notification a envoyé à l'utilisateur
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
-                header('Location: index.php');
-                exit();
+            // Tester l'existance d'une recherche
+            if (!empty($_POST['user_id'])) {
+                // On nettoie le texte soumis par l'utilisateur
+                $user_id = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
+                // Requête de récupération d'enrregistrements correspondant au texte de la recherche
+                // Si aucun résultat, on lève une exception
+                if (is_null($user_id)) {
+                    throw new Exception('L\'identifiant renseigné est incorrect!');
+                }
+                // On remplace le contenu de la liste par le résulat de la recherche
+                if (!$usersModel ->delete($user_id)) {
+                    throw new Exception('La suppression a échouée !');
+                } else {
+                    $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
+                    redirectToRoute('/');
+                }
             }
         } catch (Exception $ex) {
             var_dump($ex);
         }
-        $title = 'Ajouter un étudiant';
-        $this->render('student/create', compact('title'));
     }
-}
-
-public function delete()
-{
-    $usersModel  = new UsersModel();
-    // Suppression d'un étudiant | à faire avant l'affichage de liste pour que les données afficher soit à jour par rapport au contenu de la BDD
-    try {
-        // Tester l'existance d'une recherche
-        if (!empty($_POST['student_id'])) {
-            // On nettoie le texte soumis par l'utilisateur
-            $student_id = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
-            // Requête de récupération d'enrregistrements correspondant au texte de la recherche
-            // Si aucun résultat, on lève une exception
-            if (is_null($student_id)) {
-                throw new Exception('L\'identifiant renseigné est incorrect!');
-            }
-            // On remplace le contenu de la liste par le résulat de la recherche
-            if (!$usersModel ->delete($student_id)) {
-                throw new Exception('La suppression a échouée !');
-            } else {
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
-                redirectToRoute('/');
-            }
-        }
-    } catch (Exception $ex) {
-        var_dump($ex);
-    }
-}
 }
