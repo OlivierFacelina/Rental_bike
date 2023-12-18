@@ -21,7 +21,7 @@ $usersController = new Users;
 $route = match ($path) {
     '', '/' => $bikesController->index(),
     'bikes.details' => $bikesController->edit(),
-    'student.create' => $bikesController->create(),
+    'users.create' => $usersController->create(),
     'student.delete' => $bikesController->delete(),
     default => '404'
 };

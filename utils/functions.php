@@ -14,7 +14,7 @@ function showNotifications()
                     </div>
                 </div>
             </div>
-        <?php }
+<?php }
         // On vide le contenu de la session
         $_SESSION['notification'] = [];
         // on supprime la session
@@ -22,7 +22,8 @@ function showNotifications()
     }
 }
 
-function redirectToRoute($route) {
-    header ('Location: index.php?path=' . $route );
+function redirectToRoute($route)
+{
+    header('Location: index.php?path=' . $route);
     exit();
 }
