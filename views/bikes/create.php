@@ -1,12 +1,13 @@
-<?php ob_start()?>
+<?php ob_start();
+?>
 <div>
     <nav class="navigation d-flex justify-content-between py-4">
         <button class="navigation__left btn btn-success">
             <a href="">
-                Enregistrement des vélos
+                Gestion des réservations
             </a>
         </button>
-        <h1 class="navigation__center">Gestion des réservations</h1>
+        <h1 class="navigation__center">Enregistrement des vélos</h1>
         <div class="navigation__right" id="">
             <button class="btn btn-success">ID : <?= 'XXXXXXX' ?></button>
             <button class="btn btn-outline-danger" type="submit">Déconnexion</button>

@@ -16,5 +16,5 @@
                         <img src="./assets/img/velo1.jpg" alt="">
                         </div>
                         <div class="swiper-slide">
-                             -->
+                            -->
 </section>

@@ -48,86 +48,59 @@ public function create()
 {
     $bikeModel  = new BikesModel();
 
-    $firstname = '';
-    $lastname = '';
-    $birthdate = '';
-    $email = '';
-    $phone = '';
-    $address = '';
-    $postal_code = '';
-    $city = '';
-    $grade = '';
-    try {
-        // $student = get_student_by_id($db);
-    } catch (Exception $ex) {
-        $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-        header('Location: index.php');
-        exit();
+    $registration_number = '';
+    $photo = '';
+    
+    function randomGeneratedRegistration ($length = 6) {
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $code = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, strlen($characters) - 1)];
     }
 
-    // Vérifier qu'il existe une requête POST
+    return $code;
+    }
+
+    function generateUniqueRegistration()
+    {
+        $bikesmodel = new BikesModel();
+        
+        $newRegistraion = randomGeneratedRegistration();
+        
+        $useRegistration = $bikesmodel->AlreadyUseRegistration($newRegistraion);
+
+        while ($useRegistration) {
+            $newRegistraion = randomGeneratedRegistration();
+            $useRegistration = $bikesmodel->AlreadyUseRegistration($newRegistraion);
+        }
+
+        return $newRegistraion;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-
+        var_dump('gqgzrhzh3');
         $data = $_POST;
-        var_dump($data);
-        // Validation des données utilisateur
         $args = array(
-            'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
+            'registration_number' => FILTER_SANITIZE_SPECIAL_CHARS,
+            'photo' => FILTER_SANITIZE_SPECIAL_CHARS,
+            'availability' => FILTER_SANITIZE_SPECIAL_CHARS,
         );
-        // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
-
-        // var_dump($validatedData);
-        // Explosion du tableau en variables
         extract($validatedData);
-
-        // on rétire la clé student_id
-        unset($validatedData['student_id']);
-        var_dump($validatedData);
-
         try {
-            if (is_null($email) || is_null($postal_code)) {
-                throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-            }
-
-            // Mise à jour dans la bdd
             if ($bikeModel ->create($validatedData)) {
-                // Créer la notification a envoyé à l'utilisateur
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
-                header('Location: index.php');
+                $_SESSION['notification']['success'] = 'Le vélo a bien été enregistré!';
+                redirectToRoute('bikes.create');
                 exit();
             }
         } catch (Exception $ex) {
             var_dump($ex);
         }
-        $title = 'Ajouter un étudiant';
-        $this->render('student/create', compact('title'));
     }
+    $generateRegistration = generateUniqueRegistration();
+    $title = 'Ajouter un vélo';
+    $this->render('bikes/create', compact('title', 'generateRegistration'));
 }
 
 public function delete()

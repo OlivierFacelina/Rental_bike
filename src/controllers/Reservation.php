@@ -10,31 +10,28 @@ public function index()
 
     $reservationModel = new ReservationModel();
     
-    // liste des étdutiants dans la bdd
     $students = $reservationModel->all();
 
-    // Recherche
     try {
-        // Tester l'existance d'une recherche
+
         if (!empty($_GET['search'])) {
-            // On nettoie le texte soumis par l'utilisateur
+
             $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            // Requête de récupération d'enrregistrements correspondant au texte de la recherche
+
             $result = $reservationModel->all($search);
 
-            // Si aucun résultat, on lève une exception
             if (empty($result)) {
                 throw new Exception('Aucun résultat');
             }
-            // On remplace le contenu de la liste par le résulat de la recherche
+
             $students = $result;
         }
     } catch (Exception $ex) {
     }
 
-    $title = 'Accueil';
+    $title = 'Gestion des réservations';
 
-    $this->render('student/index', compact('students', 'title'));
+    $this->render('reservations/index', compact('reservations', 'title'));
 }
 
 public function edit()
