@@ -22,6 +22,7 @@ $route = match ($path) {
     '', '/' => $bikesController->index(),
     'bikes.details' => $bikesController->edit(),
     'bikes.create' => $bikesController->create(),
+    'reservation.create' => $reservationController->create(),
     'users.index' => $usersController->index(),
     default => '404'
 };

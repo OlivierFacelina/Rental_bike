@@ -10,17 +10,13 @@ use Exception;
 class Reservation {
     private PDO $db;
     public function __construct(
-        private int $student_id = 0, 
-        private string $INE = '', 
-        private string $firstname = '',
-        private string $lastname = '',
-        private string $birthdate = '',
-        private string $phone = '',
-        private string $email = '',
-        private string $address = '',
-        private string $postal_code = '',
-        private string $city = '',
-        private string $grade = '',
+        private int $user_id = 0, 
+        private int $bike_id = 0, 
+        private int $res_num = 0,
+        private string $res_date = '',
+        private string $start_date = '',
+        private string $end_date = '',
+        private string $status = '',
     ) {
         $this->db = Database::db_connect();
     }
@@ -35,23 +31,15 @@ class Reservation {
         }
     }
 
-    public function all(string $search = ''): array
+    public function all(): array
     {
 
         $parms = [];
 
         $sql = "SELECT 
-                    `student_id`, `INE`, `firstname`, `lastname`, 
-                    `birthdate`, `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students`";
-        if (!empty($search)) {
-            $clause = ' WHERE `firstname` LIKE :search OR lastname LIKE :search';
-
-            $sql .= $clause;
-
-            $parms['search'] = $search . '%';
-        }
-
+                    `user_id`, `bikes`.`bike_id`, DATE_FORMAT(`res_date`, '%Y-%m-%d %H:%i:%s') AS formatted_resdate, DATE_FORMAT(`start_date`, '%Y-%m-%d %H:%i:%s') AS formatted_startdate, DATE_FORMAT(`end_date`, '%Y-%m-%d %H:%i:%s') AS formatted_enddate, `registration_number`
+                FROM `reservations`
+                JOIN `bikes` ON `reservations`.`bike_id` = `bikes`.`bike_id`" ;
         $stmt = $this->db->prepare($sql);
         if (!$stmt->execute($parms)) {
             throw new Exception('La requête a échouée');
@@ -104,26 +92,14 @@ class Reservation {
     }
     public function create(array $data)
     {
-        $sql = "INSERT INTO `students`(
-                    `firstname`, 
-                    `lastname`, 
-                    `birthdate`,  
-                    `phone`, 
-                    `email`, 
-                    `address`, 
-                    `postal_code`, 
-                    `city`, 
-                    `grade`) 
+        $sql = "INSERT INTO `reservations`(
+                    `bike_id`, 
+                    `start_date`, 
+                    `end_date`) 
                 VALUES (
-                    :firstname, 
-                    :lastname, 
-                    :birthdate,  
-                    :phone, 
-                    :email, 
-                    :address, 
-                    :postal_code, 
-                    :city, 
-                    :grade)";
+                    :bike_id, 
+                    :start_date, 
+                    :end_date)";
         $stmt = $this->db->prepare($sql);
         // Exécuter la requête
         return $stmt->execute($data);

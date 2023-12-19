@@ -8,33 +8,7 @@ class Reservation extends BaseController {
 public function index()
 {
 
-    $reservationModel = new ReservationModel();
-    
-    // liste des étdutiants dans la bdd
-    $students = $reservationModel->all();
-
-    // Recherche
-    try {
-        // Tester l'existance d'une recherche
-        if (!empty($_GET['search'])) {
-            // On nettoie le texte soumis par l'utilisateur
-            $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            // Requête de récupération d'enrregistrements correspondant au texte de la recherche
-            $result = $reservationModel->all($search);
-
-            // Si aucun résultat, on lève une exception
-            if (empty($result)) {
-                throw new Exception('Aucun résultat');
-            }
-            // On remplace le contenu de la liste par le résulat de la recherche
-            $students = $result;
-        }
-    } catch (Exception $ex) {
-    }
-
-    $title = 'Accueil';
-
-    $this->render('student/index', compact('students', 'title'));
+   
 }
 
 public function edit()
@@ -122,88 +96,58 @@ public function edit()
 
 public function create()
 {
-    $reservationModel = new ReservationModel();
+    $reservationModel  = new ReservationModel();
 
-    $firstname = '';
-    $lastname = '';
-    $birthdate = '';
-    $email = '';
-    $phone = '';
-    $address = '';
-    $postal_code = '';
-    $city = '';
-    $grade = '';
-    try {
-        // $student = get_student_by_id($db);
-    } catch (Exception $ex) {
-        $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-        header('Location: index.php');
-        exit();
-    }
+    $reservations = $reservationModel->all();
+
+    $user_id = 0;
+    $bike_id = 0;
+    $res_num = 0;
+    $res_date = '';
+    $start_date = '';
+    $end_date = '';
+    $status = '';
 
     // Vérifier qu'il existe une requête POST
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
         $data = $_POST;
-        var_dump($data);
+        // var_dump($_POST);
         // Validation des données utilisateur
         $args = array(
-            'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
+            'user_id' => FILTER_SANITIZE_NUMBER_INT,
+            'bike_id' => FILTER_SANITIZE_NUMBER_INT,
+            'registration_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'start_date' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'end_date' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
         );
         // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
 
-        // var_dump($validatedData);
+        unset($validatedData['registration_number']);
+        var_dump($validatedData);
         // Explosion du tableau en variables
         extract($validatedData);
 
-        // on rétire la clé student_id
-        unset($validatedData['student_id']);
-        var_dump($validatedData);
+        // // on rétire la clé student_id
+        // unset($validatedData['student_id']);
+        // // var_dump($validatedData);
 
         try {
-            if (is_null($email) || is_null($postal_code)) {
-                throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-            }
-
             // Mise à jour dans la bdd
             if ($reservationModel->create($validatedData)) {
                 // Créer la notification a envoyé à l'utilisateur
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
-                header('Location: index.php');
+                // $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
+                // header('Location: index.php');
+                var_dump("Tout fonctionne");
                 exit();
             }
         } catch (Exception $ex) {
             var_dump($ex);
         }
-        $title = 'Ajouter un étudiant';
-        $this->render('student/create', compact('title'));
     }
+    $title = 'Ajouter un vélo';
+    $this->render('reservations/index', compact('title', 'reservations'));
 }
 
 public function delete()

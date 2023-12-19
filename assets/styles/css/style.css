@@ -1,48 +1,42 @@
-.rectangle-37,
-.rectangle-37 * {
+footer .rectangle-37,
+footer .rectangle-37 * {
   box-sizing: border-box;
 }
-
-.rectangle-37 {
+footer .rectangle-37 {
   background: #65a859;
   width: 100%; /* 1440px / 16px (root font size) */
-  height: 25.4375em; /* 407px / 16px (root font size) */
+  height: 15.4375em; /* 407px / 16px (root font size) */
   position: relative;
+  margin-top: 2em;
 }
-
-.frame-20,
-.frame-20 * {
+footer .frame-20,
+footer .frame-20 * {
   box-sizing: border-box;
 }
-
-.frame-20 {
+footer .frame-20 {
   display: flex;
   flex-direction: row;
   gap: 15.625em; /* 250px / 16px (root font size) */
   align-items: center;
-  justify-content: flex-start;
-  position: relative;
+  justify-content: center;
 }
-
-.frame-20___1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-2 {
+footer .frame-20___1485-d-977-3609-4158-805-a-f-77401-a-39-e-13-removebg-preview-2 {
   background: linear-gradient(to left, #ffffff, #ffffff);
   flex-shrink: 0;
   width: 10.25em; /* 164px / 16px (root font size) */
   height: 10.25em; /* 164px / 16px (root font size) */
   position: relative;
 }
-
-.frame-20__frame-18 {
+footer .frame-20__frame-18 {
   display: flex;
   flex-direction: column;
   gap: 1.5625em; /* 25px / 16px (root font size) */
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   position: relative;
 }
-
-.frame-20__navigation {
+footer .frame-20__navigation {
   color: #ffffff;
   text-align: left;
   font-family: "Poppins-Medium", sans-serif;
@@ -50,53 +44,54 @@
   font-weight: 500;
   position: relative;
 }
-
-.frame-20__home,
-.frame-20__nos-v-los,
-.frame-20__about-us,
-.frame-20__horraires,
-.frame-20__confidentialit {
+footer .frame-20__home,
+footer .frame-20__nos-v-los,
+footer .frame-20__about-us,
+footer .frame-20__horraires,
+footer .frame-20__confidentialit {
   color: #ffffff;
   text-align: left;
   font-family: "Poppins-Light", sans-serif;
-  font-size: 1.875em; /* 30px / 16px (root font size) */
+  font-size: 1.4em; /* 30px / 16px (root font size) */
   font-weight: 300;
   position: relative;
 }
-
-.frame-20__frame-19 {
+footer .frame-20__frame-19 {
   display: flex;
   flex-direction: column;
   gap: 0.625em; /* 10px / 16px (root font size) */
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: center;
   flex-shrink: 0;
   width: 23.625em; /* 378px / 16px (root font size) */
   position: relative;
 }
-
-.frame-20__en-semaine-de-8-h-20-h {
+footer .frame-20__en-semaine-de-8-h-20-h {
   color: #ffffff;
   text-align: left;
   font-family: "Poppins-Light", sans-serif;
-  font-size: 1.75em; /* 28px / 16px (root font size) */
+  font-size: 1.4em; /* 28px / 16px (root font size) */
   font-weight: 300;
   position: relative;
   width: 18.75em; /* 300px / 16px (root font size) */
 }
-
-.frame-20__cgu,
-.frame-20__politique-de-confidentialit {
+footer .frame-20__cgu,
+footer .frame-20__politique-de-confidentialit {
   color: #ffffff;
   text-align: left;
   font-family: "Poppins-Light", sans-serif;
-  font-size: 1.75em; /* 28px / 16px (root font size) */
+  font-size: 1.4em; /* 28px / 16px (root font size) */
   font-weight: 300;
   position: relative;
 }
-
-.frame-20__horraires,
-.frame-20__confidentialit {
+footer .frame-20__horraires,
+footer .frame-20__confidentialit {
   font-family: "Poppins-Medium", sans-serif;
   font-weight: 500;
 }
+
+.reservation {
+  background-color: #575B62;
+}
+
+/*# sourceMappingURL=style.css.map */

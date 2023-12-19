@@ -24,7 +24,7 @@
                 <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
             </div>
             <div class="navigation__right">
-                <button type="button">Réservation</button>
+                <button type="button"><a href="?path=reservation.index">Réservation</a></button>
                 <button type="button"><a href="?path=users.index">Connexion</a></button>
             </div>
         </nav>
