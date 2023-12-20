@@ -1,36 +1,31 @@
 <?php
 
 namespace App\models;
+
 use PDO;
 use Exception;
 
 /**
  * Student
  */
-class Reservation {
+class Reservation
+{
     private PDO $db;
     public function __construct(
-        private int $student_id = 0, 
-        private string $INE = '', 
-        private string $firstname = '',
-        private string $lastname = '',
-        private string $birthdate = '',
-        private string $phone = '',
-        private string $email = '',
-        private string $address = '',
-        private string $postal_code = '',
-        private string $city = '',
-        private string $grade = '',
+        private int $user_id = 0,
+        private int $bike_id = 0,
+        private string $res_num = '',
+        private string $res_date = '',
+        private string $start_date = '',
+        private string $end_date = '',
+        private string $status = ''
     ) {
         $this->db = Database::db_connect();
     }
 
-    public function fullName(): string {
-        return $this->firstname . ' ' . $this->lastname;
-    }
-
-    public function __get($name) {
-        if(property_exists($this, $name)) {
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
             return $this->$name;
         }
     }
@@ -39,13 +34,40 @@ class Reservation {
     {
 
         $parms = [];
-
-        $sql = "SELECT 
-                    `student_id`, `INE`, `firstname`, `lastname`, 
-                    `birthdate`, `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students`";
+        $sql =
+            <<<EOD
+        SELECT 
+            `users`.`firstname`,
+            `users`.`lastname`,
+            `bikes`.`registration_number`,
+            `reservations`.`res_num`,
+            `reservations`.`res_date`, 
+            `reservations`.`start_date`,
+            `reservations`.`end_date`,
+            `reservations`.`status`
+        FROM 
+            `reservations`
+        JOIN
+            `users`
+        ON
+            `reservations`.`user_id` = `users`.`user_id`
+        JOIN
+            `bikes`
+        ON
+            `reservations`.`bike_id` = `bikes`.`bike_id`
+        EOD;
         if (!empty($search)) {
-            $clause = ' WHERE `firstname` LIKE :search OR lastname LIKE :search';
+            $clause =
+                <<<EOD
+            WHERE 
+                `users`.`firstname`
+            LIKE
+                :search
+            OR 
+                `users`.`lastname`
+            LIKE
+                :search
+            EOD;
 
             $sql .= $clause;
 
@@ -85,22 +107,21 @@ class Reservation {
     }
 
 
-    public function update(array $data)
+    public function update($status, $res_num)
     {
-        $sql = "UPDATE `students` SET
-                    `firstname` = :firstname, 
-                    `lastname` = :lastname, 
-                    `birthdate` = :birthdate,  
-                    `phone` = :phone, 
-                    `email` = :email, 
-                    `address` = :address, 
-                    `postal_code` = :postal_code, 
-                    `city` = :city, 
-                    `grade` = :grade 
-                WHERE `student_id` = :student_id";
+        $sql =
+            <<<EOD
+        UPDATE 
+            `reservations` 
+        SET
+            `status` = :status
+        WHERE 
+            `res_num` = :res_num
+        EOD;
         $stmt = $this->db->prepare($sql);
-        // Exécuter la requête
-        return $stmt->execute($data);
+        $stmt->bindValue(':status', $status, PDO::PARAM_STR);
+        $stmt->bindValue(':res_num', $res_num, PDO::PARAM_STR);
+        return $stmt->execute();
     }
     public function create(array $data)
     {
@@ -136,5 +157,4 @@ class Reservation {
         $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
         return $stmt->execute();
     }
-
 }

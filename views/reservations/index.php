@@ -1,4 +1,6 @@
-<?php ob_start()?>
+<?php
+ob_start();
+?>
 <div>
     <nav class="navigation d-flex justify-content-between py-4">
         <button class="navigation__left btn btn-success">
@@ -12,30 +14,76 @@
             <button class="btn btn-outline-danger" type="submit">Déconnexion</button>
         </div>
     </nav>
-    <div class="d-flex justify-content-center">
-        <form action="" method="post" class="col-4">
-            <div class="mb-3">
-                <label for="registration_number" class="form-label">Immatriculation</label>
-                <input class="form-control" type="text" name="registration_number" id="registration_number" value="<?= $generateRegistration ?>" required>
+    <div class="border p-2 shadow">
+        <div class="row">
+            <div class="col">
+                <form action="" method="post">
+                    <div class="mb-3 d-flex g-3">
+                        <input name="search" type="text" class="form-control me-1" placeholder="Recherche Nom ou Prénom">
+                        <button type="submit" class="btn btn-primary ms-1">Rechercher</button>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="availability" class="form-label">Disponible</label>
-                <select class="form-select" name="availability" id="availability" required>
-                    <option value="1">Oui</option>
-                    <option value="0">Non</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="photo" class="form-label">Image</label>
-                <input class="form-control" type="file" name="photo" id="photo" required>
-            </div>
-            <!-- <div class="mb-3">
-                <label for="firstname" class="form-label">Prénom</label>
-                <input class="form-control" type="text" name="firstname" id="firstname" required>
-            </div> -->
-            <button class="btn btn-success" type="submit">Confirmer</button>
-        </form>
+        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom Prénom</th>
+                    <th>Immatriculation</th>
+                    <th>Date de réservation</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($reservations as $reservation) : ?>
+                    <tr>
+                        <td>
+                            <?= $reservation->res_num ?>
+                        </td>
+                        <td>
+                            <?= $reservation->firstname . ' ' . $reservation->lastname ?>
+                        </td>
+                        <td>
+                            <?= $reservation->registration_number ?>
+                        </td>
+                        <td>
+                            <?php
+                            $dateTime = new DateTime($reservation->res_date);
+                            $dateFormatted = $dateTime->format('d/m/Y à H\hi');
+                            ?>
+                            <?= $dateFormatted ?>
+                        </td>
+                        <td>
+                            <?php
+                            $dateTime = new DateTime($reservation->start_date);
+                            $dateFormatted = $dateTime->format('d/m/Y à H\hi');
+                            ?>
+                            <?= $dateFormatted ?>
+                        </td>
+                        <td>
+                            <?php
+                            $dateTime = new DateTime($reservation->end_date);
+                            $dateFormatted = $dateTime->format('d/m/Y à H\hi');
+                            ?>
+                            <?= $dateFormatted ?>
+                        </td>
+                        <td><?= $reservation->status ?></td>
+                        <td>
+                            <form action="" method="POST">
+                                <input type="hidden" name="res_num" value="<?= $reservation->res_num ?>">
+                                <button type="submit" class="btn btn-success" name="status" value="accepted">Accepter</button>
+                                <button type="submit" class="btn btn-danger" name="status" value="rejected">Refuser</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
-<?php 
+<?php
 $content = ob_get_clean();
