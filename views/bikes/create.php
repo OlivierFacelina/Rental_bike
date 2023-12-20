@@ -1,7 +1,10 @@
-<?php ob_start()?>
+<!-- <?php ob_start()?>
 
 <div class="d-flex justify-content-center mt-5 mb-5">
     <form class="mx-auto" method="post">
+        <div class="bikes__id">
+            <input type="button" name="user_id">Login :
+        </div>
         <div class="form-group">
             <label for="registration_number">Numéro d'immatriculation</label>
             <input type="text" class="form-control w-100" id="registration_number" name="registration_number" placeholder="Saisissez le numéro d'immatriculation">
@@ -22,4 +25,4 @@
     </form>
 </div>
 
-<?php $content = ob_get_clean()?>
+<?php $content = ob_get_clean()?> -->

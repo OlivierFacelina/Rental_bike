@@ -12,7 +12,7 @@ $path = $_GET["path"] ?? '';
 
 $path = filter_var($path, FILTER_SANITIZE_URL);
 
-$bikesController = new Bikes;
+// $bikesController = new Bikes;
 $reservationController = new Reservation;
 $usersController = new Users;
 
