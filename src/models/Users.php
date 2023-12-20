@@ -130,29 +130,40 @@ class Users {
     }
     public function create(array $data)
     {
-        $sql = "INSERT INTO `students`(
-                    `firstname`, 
-                    `lastname`, 
-                    `birthdate`,  
-                    `phone`, 
-                    `email`, 
-                    `address`, 
-                    `postal_code`, 
-                    `city`, 
-                    `grade`) 
-                VALUES (
-                    :firstname, 
-                    :lastname, 
-                    :birthdate,  
-                    :phone, 
-                    :email, 
-                    :address, 
-                    :postal_code, 
-                    :city, 
-                    :grade)";
+        $sql = <<<EOD
+            INSERT INTO 
+            `users`(
+                `firstname`, 
+                `lastname`, 
+                `login`,  
+                `password`, 
+                `role_id`) 
+            VALUES (
+                :firstname, 
+                :lastname, 
+                :login,  
+                :password, 
+                :role_id)
+        EOD;
         $stmt = $this->db->prepare($sql);
         // Exécuter la requête
         return $stmt->execute($data);
+    }
+    public function AlreadyUseLogin($login)
+    {
+        $query = "SELECT COUNT(*) as count FROM users WHERE login = :login";
+
+        // Utilisation de prepared statements pour éviter les injections SQL
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':login', $login, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        // Récupérer le résultat
+        $count = $stmt->fetchColumn();
+
+        // Si le compte est supérieur à zéro, le login est déjà utilisé par un autre utilisateur
+        return $count > 0;
     }
 
     public function delete(int $student_id)

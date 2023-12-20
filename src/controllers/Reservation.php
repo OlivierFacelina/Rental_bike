@@ -7,8 +7,32 @@ class Reservation extends BaseController {
 
 public function index()
 {
+    $reservationModel = new ReservationModel();
+    $reservations = $reservationModel->all();
 
-   
+    if(isset($_POST['status']) && isset($_POST['res_num'])) {
+        $status = filter_input(INPUT_POST, 'status', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $res_num = filter_input(INPUT_POST, 'res_num', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $reservationModel->update($status, $res_num);
+        redirectToRoute('reservations.index');
+    }
+
+    try {
+        if (!empty($_POST['search'])) {
+            $search = filter_input(INPUT_POST, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $result = $reservationModel->all($search);
+            if (empty($result)) {
+                throw new Exception('Aucun résultat');
+            }
+            $reservations = $result;
+        }
+    } catch (Exception $ex) {
+    }
+
+
+    $title = 'Gestion des réservations';
+
+    $this->render('reservations/index', compact('title', 'reservations'));
 }
 
 public function edit()
@@ -42,30 +66,7 @@ public function edit()
         // Validation des données utilisateur
         $args = array(
             'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'birthdate' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                ]
-            ),
-            'email' => FILTER_VALIDATE_EMAIL,
-            'phone' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                ]
-            ),
-            'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'student_id' => FILTER_VALIDATE_INT,
-            'postal_code' => array(
-                'filter' => FILTER_VALIDATE_REGEXP,
-                'options' => [
-                    'regexp' => '/^\d{5}$/'
-                ]
-            ),
-            'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-            'grade' => FILTER_SANITIZE_SPECIAL_CHARS
+            'lastname' => FILTER_SANITIZE_SPECIAL_CHARS
         );
         // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
@@ -91,7 +92,7 @@ public function edit()
     }
     $title = 'Editer';
 
-    $this->render('student/edit', compact('student', 'title'));
+    $this->render('reservations/edit', compact('student', 'title'));
 }
 
 public function create()

@@ -88,19 +88,34 @@ class Bikes {
     }
     public function create(array $data)
     {
-        $sql = "INSERT INTO `bikes`(
-                    `registration_number`, 
-                    `availability`, 
-                    `photo`,  
-                    `description`)
-                VALUES (
-                    :registration_number, 
-                    :availability, 
-                    :photo,  
-                    :description)"; 
+        $sql = <<<EOD
+        INSERT INTO `bikes` (
+            `registration_number`,
+            `availability`,
+            `photo`
+        ) 
+        VALUES (
+            :registration_number,
+            :availability,
+            :photo
+        )
+        EOD;
         $stmt = $this->db->prepare($sql);
-        // Exécuter la requête
         return $stmt->execute($data);
+    }
+
+    public function AlreadyUseRegistration($registration_number)
+    {
+        $query = "SELECT COUNT(*) as count FROM bikes WHERE registration_number = :registration_number";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':registration_number', $registration_number, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $count = $stmt->fetchColumn();
+        
+        return $count > 0;
     }
 
     public function delete(int $student_id)

@@ -12,5 +12,3 @@ abstract class BaseController {
     require($this->templateDir . '/template.php');
 }
 }
-
-

@@ -49,46 +49,58 @@ public function create()
     $bikeModel  = new BikesModel();
 
     $registration_number = '';
-    $availability = '';
     $photo = '';
-    $description = '';
+    
+    function randomGeneratedRegistration ($length = 6) {
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $code = '';
 
-    // Vérifier qu'il existe une requête POST
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $code;
+    }
+
+    function generateUniqueRegistration()
+    {
+        $bikesmodel = new BikesModel();
+        
+        $newRegistraion = randomGeneratedRegistration();
+        
+        $useRegistration = $bikesmodel->AlreadyUseRegistration($newRegistraion);
+
+        while ($useRegistration) {
+            $newRegistraion = randomGeneratedRegistration();
+            $useRegistration = $bikesmodel->AlreadyUseRegistration($newRegistraion);
+        }
+
+        return $newRegistraion;
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+        var_dump('gqgzrhzh3');
         $data = $_POST;
-        // Validation des données utilisateur
         $args = array(
-            'registration_number' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'availability' => FILTER_VALIDATE_INT,
-            'photo' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'description' => FILTER_SANITIZE_FULL_SPECIAL_CHARS
+            'registration_number' => FILTER_SANITIZE_SPECIAL_CHARS,
+            'photo' => FILTER_SANITIZE_SPECIAL_CHARS,
+            'availability' => FILTER_SANITIZE_SPECIAL_CHARS,
         );
-        // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
         $validatedData = filter_var_array($data, $args);
-
-        var_dump($validatedData);
-        // Explosion du tableau en variables
         extract($validatedData);
-
-        // // on rétire la clé student_id
-        // unset($validatedData['student_id']);
-        // // var_dump($validatedData);
-
         try {
-            // Mise à jour dans la bdd
             if ($bikeModel ->create($validatedData)) {
-                // Créer la notification a envoyé à l'utilisateur
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
-                header('Location: index.php');
+                $_SESSION['notification']['success'] = 'Le vélo a bien été enregistré!';
+                redirectToRoute('bikes.create');
                 exit();
             }
         } catch (Exception $ex) {
             var_dump($ex);
         }
     }
+    $generateRegistration = generateUniqueRegistration();
     $title = 'Ajouter un vélo';
-    $this->render('bikes/create', compact('title'));
+    $this->render('bikes/create', compact('title', 'generateRegistration'));
 }
 
 public function delete()
