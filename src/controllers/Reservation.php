@@ -20,7 +20,7 @@ public function index()
     try {
         if (!empty($_POST['search'])) {
             $search = filter_input(INPUT_POST, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $result = $reservationModel->all($search);
+            $result = $reservationModel->all();
             if (empty($result)) {
                 throw new Exception('Aucun résultat');
             }
