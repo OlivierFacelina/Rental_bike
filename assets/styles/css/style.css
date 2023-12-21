@@ -127,4 +127,20 @@ footer .copyright {
   font-size: 1.1em;
 }
 
+#login .login_form {
+  width: 60%;
+  margin: 3vh auto;
+  padding: 7vh 5vw;
+}
+#login .login_form .login_btn {
+  border: 1px solid #82B479;
+  background-color: #82B479;
+  border-radius: 5px;
+  padding: 1vh 2vw;
+}
+
+#dashboard h4 {
+  text-transform: uppercase;
+}
+
 /*# sourceMappingURL=style.css.map */

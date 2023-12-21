@@ -1,0 +1,16 @@
+#login{
+    // background-color: #82B479 !important;
+    // --bs-body-bg: #82B479;
+    .login_form{
+        width: 60%;
+        margin: 3vh auto;
+        padding: 7vh 5vw;
+        // background-color: #ffffff62 !important;
+        .login_btn{
+                border: 1px solid #82B479;
+                background-color: #82B479;
+                border-radius: 5px;
+                padding: 1vh 2vw;
+        }
+    }
+}

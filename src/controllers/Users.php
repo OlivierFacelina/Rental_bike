@@ -69,9 +69,9 @@ public function all(){
     //fonction pour avoir tout les utilisatuers dans le dshboard
     if(isset($_SESSION)&& !empty($_SESSION)){
         $user_id = $_SESSION["user_id"];
-        var_dump($user_id);
+        // var_dump($user_id);
         $user_connected_info = $usersModel -> find_user($user_id);
-        var_dump($user_connected_info);
+        // var_dump($user_connected_info);
     }
 
     $all_user = $usersModel -> all_user();
@@ -134,7 +134,7 @@ public function edit()
     }
     $title = 'Editer';
 
-        $this->render('student/edit', compact('student', 'title'));
+        $this->render('users/edit', compact('user_details','title'));
     }
 
     public function create()
