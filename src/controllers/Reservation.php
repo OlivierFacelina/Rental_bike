@@ -39,66 +39,6 @@ class Reservation extends BaseController
         $this->render('reservations/index', compact('title', 'reservations'));
     }
 
-    public function edit()
-    {
-        $student_id = $_GET['student_id'] ?? null;
-
-        $student_id = filter_var($student_id, FILTER_VALIDATE_INT);
-
-        if (is_null($student_id)) {
-            header('Location: index.php');
-            exit();
-        }
-
-        $student = null;
-        $reservationModel = new ReservationModel();
-
-        try {
-            $student = $reservationModel->find($student_id);
-        } catch (Exception $ex) {
-            $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-            header('Location: index.php');
-            exit();
-        }
-
-        // Vérifier qu'il existe une requête POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            $data = array_merge($_POST, $_GET);
-
-            // var_dump($data);
-            // Validation des données utilisateur
-            $args = array(
-                'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'lastname' => FILTER_SANITIZE_SPECIAL_CHARS
-            );
-            // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
-            $validatedData = filter_var_array($data, $args);
-            // var_dump($validatedData);
-            // Explosion du tableau en variables
-            extract($validatedData);
-
-            try {
-                if (is_null($email) || is_null($postal_code) | is_null($student_id)) {
-                    throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-                }
-
-                // Mise à jour dans la bdd
-                if ($student_model->update($validatedData)) {
-                    // Créer la notification a envoyé à l'utilisateur
-                    $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
-                    header('Location: index.php');
-                    exit();
-                }
-            } catch (Exception $ex) {
-                //throw $th;
-            }
-        }
-        $title = 'Editer';
-
-        $this->render('reservations/edit', compact('student', 'title'));
-    }
-
     public function create()
     {
         $reservationModel  = new ReservationModel();
@@ -152,7 +92,7 @@ class Reservation extends BaseController
             }
         }
         $title = 'Ajouter un vélo';
-        $this->render('reservations/index', compact('title', 'reservations'));
+        $this->render('reservations/create', compact('title', 'reservations'));
     }
 
     public function delete()

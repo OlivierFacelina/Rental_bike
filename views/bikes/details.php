@@ -7,6 +7,13 @@
         <div class="card-body">
             <h5 class="card-title">Registration number : <?= $bike->registration_number?></h5>
             <p class="card-text"><?= $bike->description ?></p>
+            <?php if(isset($_SESSION["user_id"])) { ?>
+                <form action="" method="post">
+                    <button type="submit">Réserver</button> 
+                </form>
+                <?php } else { 
+                    echo "Désolé, tu dois être connecté pour réserver.";
+                }?>
             <a href="index.php">Retour</a>
         </div>
     </div>
