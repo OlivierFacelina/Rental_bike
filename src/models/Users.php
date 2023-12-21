@@ -60,73 +60,70 @@ class Users {
     // Vous pouvez retourner quelque chose si nécessaire, sinon, vous pouvez laisser vide.
 }
 
-
-    public function all(string $search = ''): array
-    {
-
-        $parms = [];
-
-        $sql = "SELECT 
-                    `student_id`, `INE`, `firstname`, `lastname`, 
-                    `birthdate`, `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students`";
-        if (!empty($search)) {
-            $clause = ' WHERE `firstname` LIKE :search OR lastname LIKE :search';
-
-            $sql .= $clause;
-
-            $parms['search'] = $search . '%';
-        }
-
-        $stmt = $this->db->prepare($sql);
-        if (!$stmt->execute($parms)) {
-            throw new Exception('La requête a échouée');
-        }
-        // FETCH_PROPS_LATE : pour le constructeur 
-        $stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, '\App\Models\Users');
-        return $stmt->fetchAll();
-    }
-
-    /**
-     * Récupère l'étudiant ayant l'id renseigné
-     *
-     * @param integer $student_id
-     * @return object
-     */
-    public function find(int $student_id)
-    {
-        $sql = "SELECT 
-                    `INE`, `firstname`, `lastname`, 
-                    `birthdate`, DATE_FORMAT(`birthdate`, '%d/%m/%Y') AS formated_birthdate,  `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students` WHERE `student_id` = :student_id";
+//fonction pour tester l'authentification 
+public  function authUser($login){
+    $sql = "SELECT 
+     `users`.`firstname`,
+     `users`.`lastname`, 
+     `users`.`role_id`, 
+     `users`.`login`, 
+     `users`.`user_id`, 
+     `users`.`password`
+    FROM `users` 
+    WHERE `users`.`login` = :login" ;
         $stmt = $this->db->prepare($sql);
         // Lier le paramètre avec la valeur envoyée
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
+        $stmt->bindValue(':login', $login, PDO::PARAM_INT);
+        // $stmt->bindValue(':password', $password, PDO::PARAM_STR);
         // Exécuter la requête
         if (!$stmt->execute()) {
-            throw new Exception('La requête a échouée');
+        throw new Exception('La requête a échouée');
         }
 
-        return $stmt->fetch();
-    }
+return $stmt->fetch();
+}
 
+///fonction pour le dasbord , pour afficher les comptes des utilisateurs
+    public function all_user(){
+        $sql = "SELECT 
+     `users`.`firstname`,
+     `users`.`lastname`, 
+     `users`.`user_id`, 
+     `users`.`login`, 
+     `users`.`role_id`, 
+     `users`.`password`
+    FROM `users`  WHERE `users`.`role_id` = 2" ;
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt->execute()) {
+        throw new Exception('La requête a échouée');
+        }
 
-    public function update(array $data)
+    return $stmt->fetchAll();
+    }  
+
+    // /**
+    //  * Récupère l'étudiant ayant l'id renseigné
+    //  *
+    //  * @param integer $user_id
+    //  * @return object
+    //  */
+    
+    
+    public function edit($firstname,$lastname,$login,$user_id)
     {
-        $sql = "UPDATE `students` SET
+        $sql = "UPDATE `users` 
+                SET
                     `firstname` = :firstname, 
                     `lastname` = :lastname, 
-                    `birthdate` = :birthdate,  
-                    `phone` = :phone, 
-                    `email` = :email, 
-                    `address` = :address, 
-                    `postal_code` = :postal_code, 
-                    `city` = :city, 
-                    `grade` = :grade 
-                WHERE `student_id` = :student_id";
+                    `login`= :login
+                      WHERE `user_id` = :user_id";
         $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':firstname', $firstname, PDO::PARAM_STR);
+        $stmt->bindValue(':lastname', $lastname, PDO::PARAM_STR);
+        $stmt->bindValue(':login', $login, PDO::PARAM_INT);
+        $stmt->bindValue(':user_id', $user_id,PDO::PARAM_INT);
         // Exécuter la requête
-        return $stmt->execute($data);
+        return $stmt->execute();
     }
     public function create(array $data)
     {
@@ -166,12 +163,63 @@ class Users {
         return $count > 0;
     }
 
-    public function delete(int $student_id)
+    public function delete(int $user_id)
     {
-        $sql = "DELETE FROM `students` WHERE `student_id` = :student_id";
+        $sql = "DELETE FROM `reservations` WHERE `user_id` = :user_id";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
-        return $stmt->execute();
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        if ($stmt->execute()) {         
+            $sql2 = "DELETE FROM `users` WHERE `user_id` = :user_id";
+            $stmt2 = $this->db->prepare($sql2);
+            $stmt2->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt2->execute();
+        }
+        return true;
+        
     }
+    public function find_user($user_id){
+                    $sql = "SELECT 
+                    `users`.`firstname`,
+                    `users`.`lastname`,  
+                    `users`.`login`                      
+            FROM `users` 
+            WHERE `users`.`user_id` = :user_id";
+            $stmt = $this->db->prepare($sql);
+            // Lier le paramètre avec la valeur envoyée
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            // Exécuter la requête
+            if (!$stmt->execute()) {
+            throw new Exception('La requête a échouée');
+            }
 
+            return $stmt->fetch();
+    }
+    public function find(int $user_id)
+    {
+        $sql = "SELECT 
+                     `users`.`firstname`,
+                     `users`.`lastname`,  
+                     `bikes`.`registration_number`,  
+                     `bikes`.`photo`,  
+                     `reservations`.`bike_id`, 
+                     `reservations`.`res_num`, 
+                     `reservations`.`res_date`, 
+                     `reservations`.`start_date`, 
+                     `reservations`.`end_date`, 
+                     `reservations`.`status`, 
+                     `reservations`.`bike_id`                       
+                FROM `users` 
+                JOIN `reservations` ON `users`.`user_id` = `reservations`.`user_id`
+                JOIN `bikes` ON `reservations`.`bike_id` = `bikes`.`bike_id`
+                WHERE `users`.`user_id` = :user_id";
+        $stmt = $this->db->prepare($sql);
+        // Lier le paramètre avec la valeur envoyée
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        // Exécuter la requête
+        if (!$stmt->execute()) {
+            throw new Exception('La requête a échouée');
+        }
+    
+        return $stmt->fetchAll();
+    }
 }

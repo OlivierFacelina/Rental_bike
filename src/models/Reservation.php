@@ -5,9 +5,6 @@ namespace App\models;
 use PDO;
 use Exception;
 
-/**
- * Student
- */
 class Reservation
 {
     private PDO $db;
@@ -88,28 +85,6 @@ class Reservation
         return $stmt->fetchAll();
     }
 
-    /**
-     * Récupère l'étudiant ayant l'id renseigné
-     *
-     * @param integer $student_id
-     * @return object
-     */
-    public function find(int $student_id)
-    {
-        $sql = "SELECT 
-                    `INE`, `firstname`, `lastname`, 
-                    `birthdate`, DATE_FORMAT(`birthdate`, '%d/%m/%Y') AS formated_birthdate,  `phone`, `email`, `address`, `postal_code`, `city`, `grade` 
-                FROM `students` WHERE `student_id` = :student_id";
-        $stmt = $this->db->prepare($sql);
-        // Lier le paramètre avec la valeur envoyée
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
-        // Exécuter la requête
-        if (!$stmt->execute()) {
-            throw new Exception('La requête a échouée');
-        }
-
-        return $stmt->fetch();
-    }
 
 
     public function update($status, $res_num)

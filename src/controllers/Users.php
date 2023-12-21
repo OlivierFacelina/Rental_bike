@@ -11,114 +11,128 @@ class Users extends BaseController
     public function index()
     {
 
-        $usersModel = new UsersModel();
+    $usersModel = new UsersModel();
+    
+    // fonction pour crypter le smots de passe 
+    // $password = $usersModel->updatePassword();
+    // var_dump($password);
+    // Recherche
 
-        // liste des étdutiants dans la bdd
-        $bike = $usersModel->all();
-
-        // Recherche
-        try {
-            // Tester l'existance d'une recherche
-            if (!empty($_GET['search'])) {
-                // On nettoie le texte soumis par l'utilisateur
-                $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-                // Requête de récupération d'enrregistrements correspondant au texte de la recherche
-                $result = $usersModel->all($search);
-
-                // Si aucun résultat, on lève une exception
-                if (empty($result)) {
-                    throw new Exception('Aucun résultat');
-                }
-                // On remplace le contenu de la liste par le résulat de la recherche
-                $students = $result;
+    // isset($_POST["login"]) && !empty($_POST["login"])
+    //recupération des données du champs d'authentification
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $errors = [];
+        if (isset($_POST) && !empty($_POST)) {
+            var_dump($_POST);
+            $login = filter_input(INPUT_POST,"login",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if (!$login) {
+                var_dump('il n\'y pas de chiffrre dans cette vaiable');
+                $errors ["login"] = 'il n\'y pas de chiffrre dans cette vaiable';
             }
-        } catch (Exception $ex) {
+            $password = $_POST["password"];
+            // $password_hashed = password_hash($password, PASSWORD_BCRYPT);
+            var_dump($password);
+            //appell de la fonction d'authetification
+            $userAuth = $usersModel -> authUser($login);
+            if (password_verify($password , $userAuth -> password)) {
+                var_dump("mot de passe correct");
+                $_SESSION['user_id'] = $userAuth->user_id;
+                $_SESSION['user_role'] = $userAuth->role_id;
+                $user_role = $userAuth -> role_id;
+                // var_dump($user_role);
+                // var_dump($_SESSION);
+                // die();
+                    if ($user_role == 2 ) {
+                        redirectToRoute('/');
+                    } else {
+                        redirectToRoute('users.dashboard');
+                    }
+                    
+            } else {
+                var_dump("mot de passe incorrect");
+            }
+          
+            // var_dump($userAuth);
+            // var_dump($userAuth -> password);
         }
+    }
 
-        $title = 'Accueil';
+
+
+
+    $title = 'Authentification';
 
     $this->render('users/index', compact( 'title'));
 }
+public function all(){
+    $usersModel = new UsersModel();
+    //fonction pour avoir tout les utilisatuers dans le dshboard
+    if(isset($_SESSION)&& !empty($_SESSION)){
+        $user_id = $_SESSION["user_id"];
+        var_dump($user_id);
+        $user_connected_info = $usersModel -> find_user($user_id);
+        var_dump($user_connected_info);
+    }
 
-    public function edit()
-    {
-        $student_id = $_GET['student_id'] ?? null;
+    $all_user = $usersModel -> all_user();
+    // var_dump($all_user);
 
-        $student_id = filter_var($student_id, FILTER_VALIDATE_INT);
+    $title = 'Dashboard';
 
-        if (is_null($student_id)) {
-            header('Location: index.php');
-            exit();
-        }
+    $this->render('users/dashboard', compact( 'title','all_user','user_connected_info'));
+}
 
-        $student = null;
-        $usersModel  = new UsersModel();
+public function edit()
+{
+    $usersModel  = new UsersModel();
+    $user_id = $_GET['user_id'] ?? null;
+    var_dump($user_id);
+    $user_id = filter_var($user_id, FILTER_VALIDATE_INT);
 
-        try {
-            $student = $usersModel->find($student_id);
-        } catch (Exception $ex) {
-            $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
-            header('Location: index.php');
-            exit();
-        }
+    // if (is_null($user_id)) {
+    //     redirectToRoute('/');
+    //     exit();
+    // }
 
-        // Vérifier qu'il existe une requête POST
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // $user = null;
+    // $user_details = $usersModel -> find($user_id);
+    // var_dump($user_details);
 
-            $data = array_merge($_POST, $_GET);
+    try {
+        $user_details = $usersModel -> find_user($user_id);
+    } catch (Exception $ex) {
+        // $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
+        redirectToRoute('/');
 
-            // var_dump($data);
-            // Validation des données utilisateur
-            $args = array(
-                'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'birthdate' => array(
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => [
-                        'regexp' => '/^\d{4}(-\d{2}){2}$/'
-                    ]
-                ),
-                'email' => FILTER_VALIDATE_EMAIL,
-                'phone' => array(
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => [
-                        'regexp' => '/^0[67]+(-\d{2}){4}$/'
-                    ]
-                ),
-                'address' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'student_id' => FILTER_VALIDATE_INT,
-                'postal_code' => array(
-                    'filter' => FILTER_VALIDATE_REGEXP,
-                    'options' => [
-                        'regexp' => '/^\d{5}$/'
-                    ]
-                ),
-                'city' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'grade' => FILTER_SANITIZE_SPECIAL_CHARS
-            );
-            // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
-            $validatedData = filter_var_array($data, $args);
-            // var_dump($validatedData);
-            // Explosion du tableau en variables
-            extract($validatedData);
+    }
 
-            try {
-                if (is_null($email) || is_null($postal_code) | is_null($student_id)) {
-                    throw new Exception("Le code de postal ou l'adresse email ou l'id est invalide");
-                }
+    // // Vérifier qu'il existe une requête POST
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        var_dump($_POST);
+        //extrction des données 
+        $firstname = filter_input(INPUT_POST,"firstname",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $lastname = filter_input(INPUT_POST,"lastname",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $login = filter_input(INPUT_POST,"login",FILTER_VALIDATE_INT);
+        //Vérifions si l'utilisateur a bien modifié au moins un champ
+        
+        var_dump($firstname,$lastname,$login);
+            if (!empty($firstname) && !empty($lastname) && (!empty($login)) && preg_match('/^\d{4}$/', $login)) {
+               var_dump("tout fonctionne ");
+               $usersModel -> edit($firstname,$lastname,$login,$user_id);
+                redirectToRoute('users.dashboard');
 
-                // Mise à jour dans la bdd
-                if ($usersModel->update($validatedData)) {
-                    // Créer la notification a envoyé à l'utilisateur
-                    $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
-                    header('Location: index.php');
-                    exit();
-                }
-            } catch (Exception $ex) {
-                //throw $th;
+                       //         // Créer la notification a envoyé à l'utilisateur
+        //         // $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
+        //         // header('Location: index.php');
+        //         // exit();
+        //     }
+               
             }
-        }
-        $title = 'Editer';
+            else {
+                var_dump("ça marche pas ");
+            }
+    }
+    $title = 'Editer';
 
         $this->render('student/edit', compact('student', 'title'));
     }
@@ -214,19 +228,20 @@ class Users extends BaseController
         // Suppression d'un étudiant | à faire avant l'affichage de liste pour que les données afficher soit à jour par rapport au contenu de la BDD
         try {
             // Tester l'existance d'une recherche
-            if (!empty($_POST['student_id'])) {
+            if (!empty($_POST['user_id'])) {
                 // On nettoie le texte soumis par l'utilisateur
-                $student_id = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
+                $user_id = filter_input(INPUT_POST, 'user_id', FILTER_VALIDATE_INT);
                 // Requête de récupération d'enrregistrements correspondant au texte de la recherche
                 // Si aucun résultat, on lève une exception
-                if (is_null($student_id)) {
+                if (is_null($user_id)) {
                     throw new Exception('L\'identifiant renseigné est incorrect!');
                 }
                 // On remplace le contenu de la liste par le résulat de la recherche
-                if (!$usersModel->delete($student_id)) {
+                if (!$usersModel ->delete($user_id)) {
                     throw new Exception('La suppression a échouée !');
-                } else {
-                    $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
+                } 
+                else {
+                    // $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
                     redirectToRoute('/');
                 }
             }
@@ -234,4 +249,22 @@ class Users extends BaseController
             var_dump($ex);
         }
     }
+    public function find(){
+    $usersModel  = new UsersModel();
+    if(isset($_SESSION)&& !empty($_SESSION)){
+        $user_id = $_SESSION["user_id"] ?? '';
+        $details_reservations = $usersModel -> find($user_id);
+        // var_dump($details_reservations);
+        $title = 'Mes réservations';
+        $this->render('users/details', compact( 'title','details_reservations'));
+    }
+    else{
+        $title = 'Mes réservations';
+        $this->render('users/details', compact( 'title'));
+    }
+    
+
+
+    }
 }
+
