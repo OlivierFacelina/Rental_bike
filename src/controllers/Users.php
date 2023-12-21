@@ -169,16 +169,15 @@ class Users extends BaseController
 
         // Vérifier qu'il existe une requête POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-            password_hash($_POST["password"], PASSWORD_BCRYPT);
-            
+            $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+            $_POST['password'] = $password;
             $data = $_POST;
             // Validation des données utilisateur
             $args = array(
                 'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
                 'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
                 'login' => FILTER_SANITIZE_SPECIAL_CHARS,
-                'password' => FILTER_SANITIZE_SPECIAL_CHARS,
+                'password' => '',
                 'role_id' => FILTER_SANITIZE_SPECIAL_CHARS,
             );
             // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
@@ -197,8 +196,8 @@ class Users extends BaseController
                     // Créer la notification a envoyé à l'utilisateur
                     $_SESSION['notification']['success'] = 'L\'utilisateur  a  bien été enregistré!';
 
-                    redirectToRoute('users.create');
-                    exit();
+                    // redirectToRoute('users.create');
+                    // exit();
                 }
             } catch (Exception $ex) {
                 var_dump($ex);
