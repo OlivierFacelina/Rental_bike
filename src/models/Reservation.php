@@ -30,7 +30,7 @@ class Reservation
         }
     }
 
-    public function all(string $search = ''): array
+    public function all(): array
     {
 
         $parms = [];
@@ -125,26 +125,14 @@ class Reservation
     }
     public function create(array $data)
     {
-        $sql = "INSERT INTO `students`(
-                    `firstname`, 
-                    `lastname`, 
-                    `birthdate`,  
-                    `phone`, 
-                    `email`, 
-                    `address`, 
-                    `postal_code`, 
-                    `city`, 
-                    `grade`) 
+        $sql = "INSERT INTO `reservations`(
+                    `bike_id`, 
+                    `start_date`, 
+                    `end_date`) 
                 VALUES (
-                    :firstname, 
-                    :lastname, 
-                    :birthdate,  
-                    :phone, 
-                    :email, 
-                    :address, 
-                    :postal_code, 
-                    :city, 
-                    :grade)";
+                    :bike_id, 
+                    :start_date, 
+                    :end_date)";
         $stmt = $this->db->prepare($sql);
         // Exécuter la requête
         return $stmt->execute($data);

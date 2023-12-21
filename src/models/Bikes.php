@@ -10,17 +10,11 @@ use Exception;
 class Bikes {
     private PDO $db;
     public function __construct(
-        private int $student_id = 0, 
-        private string $INE = '', 
-        private string $firstname = '',
-        private string $lastname = '',
-        private string $birthdate = '',
-        private string $phone = '',
-        private string $email = '',
-        private string $address = '',
-        private string $postal_code = '',
-        private string $city = '',
-        private string $grade = '',
+        private int $bike_id = 0, 
+        private string $registration_number = '', 
+        private int $availability = 0,
+        private string $photo = '',
+        private string $description = '',
     ) {
         $this->db = Database::db_connect();
     }
@@ -35,9 +29,8 @@ class Bikes {
         }
     }
 
-    public function all(string $search = ''): array
+    public function all(): array
     {
-
         $parms = [];
 
         $sql = "SELECT 

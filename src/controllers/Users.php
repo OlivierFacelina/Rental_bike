@@ -37,8 +37,8 @@ class Users extends BaseController
 
         $title = 'Accueil';
 
-        $this->render('student/index', compact('students', 'title'));
-    }
+    $this->render('users/index', compact( 'title'));
+}
 
     public function edit()
     {

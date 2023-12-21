@@ -1,6 +1,9 @@
 <?php ob_start()?>
 <div class="bikes mt-5">
-    <h3 class="bikes__title text-center">Découvrez nos vélos</h3>
+    <div class="title d-flex justify-content-center">
+        <h3 class="bikes__title text-center mx-5">Découvrez nos vélos</h3>
+        <a href="?path=bikes.create" class="add-bikes mx-3">Ajouter</a>
+    </div>
     <?php $counter = 0; ?>
     <div class="bikes__card mt-5 d-flex justify-content-center">
         <?php foreach ($bikes as $bike) { ?>
@@ -13,6 +16,13 @@
                     <h5 class="card-title">Registration number : <?= $bike->registration_number?></h5>
                     <p class="card-text"><?= $bike->description ?></p>
                     <a href="?path=bikes.details&bike_id=<?= $bike->bike_id ?>">Détails</a>
+                    <p class="mt-3">
+                        <?php if($bike->availability == 0) { 
+                            echo "Non disponible";
+                            }
+                            else if($bike->availability == 1) {
+                                echo "Disponible"; }?>
+                    </p>
                 </div>
             </div>
             <?php $counter++; ?>
