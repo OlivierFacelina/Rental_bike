@@ -134,7 +134,7 @@ public function edit()
     }
     $title = 'Editer';
 
-        $this->render('student/edit', compact('student', 'title'));
+        $this->render('users/edit', compact('user_details', 'title'));
     }
 
     public function create()
