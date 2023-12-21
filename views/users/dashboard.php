@@ -9,7 +9,7 @@
             <div class="col-2 bg-success"><h6 >Ajouter un utilisateur </h6></div>
             <div class="col-3"><h5>Gestions des utilisateur</h5></div>
             <div class="col-1 bg-success"><h6>Login : <?= $user_connected_info-> login ?></h6></div>
-            <div class="col-3 "> <h6 class="btn btn-outline-danger"> Deconnexion </h6></div>
+            <div class="col-3 ">  <a class="btn btn-outline-danger" href="?path=home">Deconnexion</a></div>
         </div>
     </div>
 
