@@ -163,7 +163,7 @@ return $stmt->fetch();
         return $count > 0;
     }
 
-    public function delete(int $student_id)
+    public function delete(int $user_id)
     {
         $sql = "DELETE FROM `reservations` WHERE `user_id` = :user_id";
         $stmt = $this->db->prepare($sql);
