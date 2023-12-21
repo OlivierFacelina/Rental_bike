@@ -33,7 +33,12 @@ public function index()
             $userAuth = $usersModel -> authUser($login);
             if (password_verify($password , $userAuth -> password)) {
                 var_dump("mot de passe correct");
+                $_SESSION['user_id'] = $userAuth->user_id;
+                $_SESSION['user_role'] = $userAuth->role_id;
                 $user_role = $userAuth -> role_id;
+                // var_dump($user_role);
+                // var_dump($_SESSION);
+                // die();
                     if ($user_role == 2 ) {
                         redirectToRoute('/');
                     } else {
@@ -44,7 +49,7 @@ public function index()
                 var_dump("mot de passe incorrect");
             }
           
-            var_dump($userAuth);
+            // var_dump($userAuth);
             // var_dump($userAuth -> password);
         }
     }
@@ -59,33 +64,39 @@ public function index()
 public function all(){
     $usersModel = new UsersModel();
     //fonction pour avoir tout les utilisatuers dans le dshboard
+    if(isset($_SESSION)&& !empty($_SESSION)){
+        $user_id = $_SESSION["user_id"];
+        var_dump($user_id);
+        $user_connected_info = $usersModel -> find_user($user_id);
+        var_dump($user_connected_info);
+    }
 
     $all_user = $usersModel -> all_user();
     // var_dump($all_user);
 
     $title = 'Dashboard';
 
-    $this->render('users/dashboard', compact( 'title','all_user'));
+    $this->render('users/dashboard', compact( 'title','all_user','user_connected_info'));
 }
 
 public function edit()
 {
+    $usersModel  = new UsersModel();
     $user_id = $_GET['user_id'] ?? null;
-
+    var_dump($user_id);
     $user_id = filter_var($user_id, FILTER_VALIDATE_INT);
 
     // if (is_null($user_id)) {
-    //     header('Location: index.php');
+    //     redirectToRoute('/');
     //     exit();
     // }
 
-    $user = null;
-    $usersModel  = new UsersModel();
+    // $user = null;
     // $user_details = $usersModel -> find($user_id);
     // var_dump($user_details);
 
     try {
-        $user_details = $usersModel -> find($user_id);
+        $user_details = $usersModel -> find_user($user_id);
     } catch (Exception $ex) {
         // $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
         redirectToRoute('/');
@@ -105,7 +116,7 @@ public function edit()
             if (!empty($firstname) && !empty($lastname) && (!empty($login)) && preg_match('/^\d{4}$/', $login)) {
                var_dump("tout fonctionne ");
                $usersModel -> edit($firstname,$lastname,$login,$user_id);
-                redirectToRoute('/');
+                redirectToRoute('users.dashboard');
 
                        //         // Créer la notification a envoyé à l'utilisateur
         //         // $_SESSION['notification']['success'] = 'La mise à jour a bien été enregistrée!';
@@ -139,8 +150,9 @@ public function delete()
                 // On remplace le contenu de la liste par le résulat de la recherche
                 if (!$usersModel ->delete($user_id)) {
                     throw new Exception('La suppression a échouée !');
-                } else {
-                    $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
+                } 
+                else {
+                    // $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
                     redirectToRoute('/');
                 }
             }
@@ -148,4 +160,22 @@ public function delete()
             var_dump($ex);
         }
     }
+    public function find(){
+    $usersModel  = new UsersModel();
+    if(isset($_SESSION)&& !empty($_SESSION)){
+        $user_id = $_SESSION["user_id"] ?? '';
+        $details_reservations = $usersModel -> find($user_id);
+        // var_dump($details_reservations);
+        $title = 'Mes réservations';
+        $this->render('users/details', compact( 'title','details_reservations'));
+    }
+    else{
+        $title = 'Mes réservations';
+        $this->render('users/details', compact( 'title'));
+    }
+    
+
+
+    }
 }
+

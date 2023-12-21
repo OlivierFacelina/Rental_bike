@@ -1,6 +1,6 @@
 <?php ob_start()?>
 
-<h6 class="text-center"> Modification de l'utilisateur : <?= ucfirst($user_details -> lastname)?> <?= ucfirst($user_details -> firstname)?> </h6>
+<h6 class="text-center"> Modification de l'utilisateur : <?= $user_details -> lastname?> <?= $user_details -> firstname?> </h6>
 <form action="" method="post" class="container">
     <div class="row ">
         <div class="mb-3 col-md">

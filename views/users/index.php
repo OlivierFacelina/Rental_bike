@@ -1,4 +1,7 @@
-<?php ob_start()?>
+<?php 
+var_dump($_SESSION)
+;
+ob_start()?>
 <h3> Pages admin/employés </h3>
 <h4> Authentification</h4>
 

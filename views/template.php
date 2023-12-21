@@ -1,3 +1,7 @@
+<?php 
+// session_start() 
+?>
+
 <!doctype html>
 <html lang="fr" data-bs-theme="dark">
 
@@ -12,7 +16,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/styles/css/style.css">
+    <link rel="stylesheet" href="./assets/styles/css/style.css">
     <script defer src="./assets/js/script.js"></script>
 </head>
 <body>
@@ -28,8 +32,12 @@
                             <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
                         </div>
                         <div class="navigation__right">
-                            <button type="button">Réservation</button>
-                            <button type="button"><a href="?path=users.index">Connexion</a></button>
+                            <button type="button"><a href="?path=users.details">Mes réservations</a></button>
+                            <?php if (isset($_SESSION['user_id'])) { ?>
+                            <button type="button"><a href="?path=home">Déconnexion</a></button>
+                            <?php } else {?>
+                                <button type="button"><a href="?path=users.index">Connexion</a></button>
+                            <?php }?>
                         </div>
                 </nav>
         </header>

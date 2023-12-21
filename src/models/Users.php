@@ -65,8 +65,9 @@ public  function authUser($login){
     $sql = "SELECT 
      `users`.`firstname`,
      `users`.`lastname`, 
-     `users`.`login`, 
      `users`.`role_id`, 
+     `users`.`login`, 
+     `users`.`user_id`, 
      `users`.`password`
     FROM `users` 
     WHERE `users`.`login` = :login" ;
@@ -100,31 +101,14 @@ return $stmt->fetch();
     return $stmt->fetchAll();
     }  
 
-    /**
-     * Récupère l'étudiant ayant l'id renseigné
-     *
-     * @param integer $user_id
-     * @return object
-     */
-    public function find(int $user_id)
-    {
-        $sql = "SELECT 
-                     `firstname`,
-                      `lastname`, 
-                      `login`
-                FROM `users` WHERE `users`.`user_id` = :user_id";
-        $stmt = $this->db->prepare($sql);
-        // Lier le paramètre avec la valeur envoyée
-        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        // Exécuter la requête
-        if (!$stmt->execute()) {
-            throw new Exception('La requête a échouée');
-        }
-
-        return $stmt->fetch();
-    }
-
-
+    // /**
+    //  * Récupère l'étudiant ayant l'id renseigné
+    //  *
+    //  * @param integer $user_id
+    //  * @return object
+    //  */
+    
+    
     public function edit($firstname,$lastname,$login,$user_id)
     {
         $sql = "UPDATE `users` 
@@ -167,13 +151,64 @@ return $stmt->fetch();
         // Exécuter la requête
         return $stmt->execute($data);
     }
-
+    
     public function delete(int $user_id)
     {
-        $sql = "DELETE FROM `users` WHERE `user_id` = :user_id";
+        $sql = "DELETE FROM `reservations` WHERE `user_id` = :user_id";
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
-        return $stmt->execute();
+        if ($stmt->execute()) {         
+            $sql2 = "DELETE FROM `users` WHERE `user_id` = :user_id";
+            $stmt2 = $this->db->prepare($sql2);
+            $stmt2->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt2->execute();
+        }
+        return true;
+        
     }
+    public function find_user($user_id){
+                    $sql = "SELECT 
+                    `users`.`firstname`,
+                    `users`.`lastname`,  
+                    `users`.`login`                      
+            FROM `users` 
+            WHERE `users`.`user_id` = :user_id";
+            $stmt = $this->db->prepare($sql);
+            // Lier le paramètre avec la valeur envoyée
+            $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+            // Exécuter la requête
+            if (!$stmt->execute()) {
+            throw new Exception('La requête a échouée');
+            }
 
+            return $stmt->fetch();
+    }
+    public function find(int $user_id)
+    {
+        $sql = "SELECT 
+                     `users`.`firstname`,
+                     `users`.`lastname`,  
+                     `bikes`.`registration_number`,  
+                     `bikes`.`photo`,  
+                     `reservations`.`bike_id`, 
+                     `reservations`.`res_num`, 
+                     `reservations`.`res_date`, 
+                     `reservations`.`start_date`, 
+                     `reservations`.`end_date`, 
+                     `reservations`.`status`, 
+                     `reservations`.`bike_id`                       
+                FROM `users` 
+                JOIN `reservations` ON `users`.`user_id` = `reservations`.`user_id`
+                JOIN `bikes` ON `reservations`.`bike_id` = `bikes`.`bike_id`
+                WHERE `users`.`user_id` = :user_id";
+        $stmt = $this->db->prepare($sql);
+        // Lier le paramètre avec la valeur envoyée
+        $stmt->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        // Exécuter la requête
+        if (!$stmt->execute()) {
+            throw new Exception('La requête a échouée');
+        }
+    
+        return $stmt->fetchAll();
+    }
 }

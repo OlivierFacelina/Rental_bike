@@ -1,17 +1,15 @@
-let delete_btn = document.querySelectorAll('.btn_delete')
-let form_delete = document.querySelector('#form_delete')
-console.log(delete_btn);
-let student_id = 0;
+// let delete_btn = document.querySelector('.btn_delete')
+// console.log(delete_btn);
+let user_id = 0;
 let buttons = document.querySelectorAll('button');
-delete_btn.forEach(btn => {
+buttons.forEach(btn => {
     btn.addEventListener('click', function () {
         console.log(btn);
         if (this.classList.contains('btn_delete')) {
-            confirm('voulez-vous vraiment supprimer cet utilisateur ?')
-            student_id = this.dataset.id;
+            user_id = this.dataset.id;
         } else if (this.classList.contains('delete-confirm')) {
-            console.log("Oui", `#form_${student_id}`);
-            document.querySelector(`#form_${student_id}`).submit();
+            console.log("Oui", `#form_${user_id}`);
+            document.querySelector(`#form_${user_id}`).submit();
         }
     }, false)
 })
