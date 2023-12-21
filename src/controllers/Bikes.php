@@ -102,31 +102,4 @@ public function create()
     $title = 'Ajouter un vélo';
     $this->render('bikes/create', compact('title', 'generateRegistration'));
 }
-
-public function delete()
-{
-    $bikeModel  = new BikesModel();
-    // Suppression d'un étudiant | à faire avant l'affichage de liste pour que les données afficher soit à jour par rapport au contenu de la BDD
-    try {
-        // Tester l'existance d'une recherche
-        if (!empty($_POST['student_id'])) {
-            // On nettoie le texte soumis par l'utilisateur
-            $student_id = filter_input(INPUT_POST, 'student_id', FILTER_VALIDATE_INT);
-            // Requête de récupération d'enrregistrements correspondant au texte de la recherche
-            // Si aucun résultat, on lève une exception
-            if (is_null($student_id)) {
-                throw new Exception('L\'identifiant renseigné est incorrect!');
-            }
-            // On remplace le contenu de la liste par le résulat de la recherche
-            if (!$bikeModel ->delete($student_id)) {
-                throw new Exception('La suppression a échouée !');
-            } else {
-                $_SESSION['notification']['success'] = 'L\'étudient  a  bien été supprimé!';
-                redirectToRoute('/');
-            }
-        }
-    } catch (Exception $ex) {
-        var_dump($ex);
-    }
-}
 }

@@ -4,9 +4,6 @@ namespace App\models;
 use PDO;
 use Exception;
 
-/**
- * Student
- */
 class Bikes {
     private PDO $db;
     public function __construct(
@@ -48,7 +45,7 @@ class Bikes {
     /**
      * Récupère l'étudiant ayant l'id renseigné
      *
-     * @param integer $student_id
+     * @param integer $bike_id
      * @return object
      */
     public function find(int $bike_id)
@@ -69,23 +66,6 @@ class Bikes {
     }
 
 
-    public function update(array $data)
-    {
-        $sql = "UPDATE `students` SET
-                    `firstname` = :firstname, 
-                    `lastname` = :lastname, 
-                    `birthdate` = :birthdate,  
-                    `phone` = :phone, 
-                    `email` = :email, 
-                    `address` = :address, 
-                    `postal_code` = :postal_code, 
-                    `city` = :city, 
-                    `grade` = :grade 
-                WHERE `student_id` = :student_id";
-        $stmt = $this->db->prepare($sql);
-        // Exécuter la requête
-        return $stmt->execute($data);
-    }
     public function create(array $data)
     {
         $sql = <<<EOD
@@ -118,12 +98,5 @@ class Bikes {
         return $count > 0;
     }
 
-    public function delete(int $student_id)
-    {
-        $sql = "DELETE FROM `students` WHERE `student_id` = :student_id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
-        return $stmt->execute();
-    }
 
 }

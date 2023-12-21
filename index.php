@@ -19,8 +19,9 @@ $LogOut_controller = new LogOut;
 // var_dump($student_controller);
 
 $route = match ($path) {
-    '', '/' => $bikesController->index(),
-    'home' => $LogOut_controller->LogOut(),
+    '', '/' => $LogOut_controller ->redirect_to_home(),
+    'bikes.index' => $bikesController->index(),
+    'deconnection' => $LogOut_controller->LogOut(),
     'bikes.details' => $bikesController->edit(),
     'bikes.create' => $bikesController->create(),
     'reservation.create' => $reservationController->create(),

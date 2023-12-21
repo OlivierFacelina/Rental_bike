@@ -28,15 +28,15 @@
                             <a href=""><img src="" alt="" srcset="">logo</a>
                         </div>
                         <div class="navigation__center">
-                            <a href="http://" target="_blank" rel="noopener noreferrer">Home</a>
-                            <a href="http://" target="_blank" rel="noopener noreferrer">Nos vélos</a>
-                            <a href="http://" target="_blank" rel="noopener noreferrer">Réserver</a>
-                            <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
+                            <a href="?path=/" target="_blank" rel="noopener noreferrer">Home</a>
+                            <a href="?path=bikes.index" target="_blank" rel="noopener noreferrer">Nos vélos</a>
+                            <!-- <a href="" target="_blank" rel="noopener noreferrer">Réserver</a> -->
+                            <a href="" target="_blank" rel="noopener noreferrer"> A propos </a>
                         </div>
                         <div class="navigation__right">
                             <button type="button" class="btn_secondary"><a href="?path=users.details">Mes réservations</a></button>
                             <?php if (isset($_SESSION['user_id'])) { ?>
-                            <button type="button" class="btn_primary"><a href="?path=home">Déconnexion</a></button>
+                            <button type="button" class="btn_primary"><a href="?path=deconnection">Déconnexion</a></button>
                             <?php } else {?>
                                 <button type="button" class="btn_primary"><a href="?path=users.index">Connexion</a></button>
                             <?php }?>
