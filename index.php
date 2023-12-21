@@ -26,5 +26,6 @@ $route = match ($path) {
     'users.index' => $usersController->index(),
     'users.create' => $usersController->create(),
     'reservations.index' => $reservationController->index(),
+    'reservations.delete' => $reservationController->delete(),
     default => '404'
 };

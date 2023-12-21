@@ -30,7 +30,7 @@ class Reservation
         }
     }
 
-    public function all(): array
+    public function all(string $search = '')
     {
 
         $parms = [];
@@ -40,6 +40,7 @@ class Reservation
             `users`.`firstname`,
             `users`.`lastname`,
             `bikes`.`registration_number`,
+            `reservations`.`bike_id`,
             `reservations`.`res_num`,
             `reservations`.`res_date`, 
             `reservations`.`start_date`,
@@ -65,6 +66,10 @@ class Reservation
                 :search
             OR 
                 `users`.`lastname`
+            LIKE
+                :search
+            OR 
+                `bikes`.`registration_number`
             LIKE
                 :search
             EOD;
@@ -138,11 +143,11 @@ class Reservation
         return $stmt->execute($data);
     }
 
-    public function delete(int $student_id)
+    public function delete($res_num)
     {
-        $sql = "DELETE FROM `students` WHERE `student_id` = :student_id";
+        $sql = "DELETE FROM `reservations` WHERE `res_num` = :res_num";
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':student_id', $student_id, PDO::PARAM_INT);
+        $stmt->bindValue(':res_num', $res_num, PDO::PARAM_INT);
         return $stmt->execute();
     }
 }
