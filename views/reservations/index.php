@@ -90,7 +90,7 @@ ob_start();
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                <?php require __DIR__ . '/../_delete-modal.php' ?>
+                <?php require __DIR__ . '/../_delete-reservation-modal.php' ?>
             </tbody>
         </table>
     </div>
