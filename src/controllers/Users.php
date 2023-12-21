@@ -134,7 +134,7 @@ public function edit()
     }
     $title = 'Editer';
 
-        $this->render('users/edit', compact('user_details','title'));
+        $this->render('users/edit', compact('user_details', 'title'));
     }
 
     public function create()
@@ -210,8 +210,8 @@ public function edit()
                     // Créer la notification a envoyé à l'utilisateur
                     $_SESSION['notification']['success'] = 'L\'utilisateur  a  bien été enregistré!';
 
-                    // redirectToRoute('users.create');
-                    // exit();
+                    redirectToRoute('users.create');
+                    exit();
                 }
             } catch (Exception $ex) {
                 var_dump($ex);

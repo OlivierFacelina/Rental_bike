@@ -1,3 +1,21 @@
+let res_num = 0;
+let buttons_modal = document.querySelectorAll('button');
+buttons_modal.forEach(btn => {
+    btn.addEventListener('click', function () {
+        if (this.classList.contains('delete')) {
+            res_num = this.dataset.res_num;
+        } else if (this.classList.contains('delete-confirm')) {
+            let formSelector = `#form_${res_num}`
+            let form = document.querySelector(formSelector);
+            // document.querySelector(`#form_${res_num}`).submit();
+            if (form) {
+                form.submit();
+            } else {
+                console.error(`Form not found: ${formSelector}`);
+            }
+        }
+    }, false)
+});
 // let delete_btn = document.querySelector('.btn_delete')
 // console.log(delete_btn);
 let user_id = 0;

@@ -3,7 +3,6 @@
     <div class="title d-flex justify-content-center">
         <h3 class="bikes__title text-center mx-5">Découvrez nos vélos</h3>
     </div>
-    <a href="?path=bikes.create" class="add-bikes mx-3">Ajouter</a>
     <?php $counter = 0; ?>
     <div class="bikes__card mt-5 d-flex justify-content-center">
         <?php foreach ($bikes as $bike) { ?>
