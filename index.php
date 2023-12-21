@@ -20,14 +20,14 @@ $LogOut_controller = new LogOut;
 
 $route = match ($path) {
     '', '/' => $LogOut_controller ->redirect_to_home(),
-    'bikes.index' => $bikesController->index(),
     'deconnection' => $LogOut_controller->LogOut(),
+    'bikes.index' => $bikesController->index(),
     'bikes.details' => $bikesController->edit(),
     'bikes.create' => $bikesController->create(),
-    'reservation.create' => $reservationController->create(),
-    'users.index' => $usersController->index(),
+    'reservations.create' => $reservationController->create(),
     'reservations.index' => $reservationController->index(),
     'reservations.delete' => $reservationController->delete(),
+    'users.index' => $usersController->index(),
     'users.dashboard' => $usersController->all(),
     'users.edit' => $usersController->edit(),
     'users.delete' => $usersController->delete(),

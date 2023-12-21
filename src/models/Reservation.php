@@ -106,10 +106,12 @@ class Reservation
     public function create(array $data)
     {
         $sql = "INSERT INTO `reservations`(
+                    `user_id`,
                     `bike_id`, 
                     `start_date`, 
                     `end_date`) 
                 VALUES (
+                    :user_id,
                     :bike_id, 
                     :start_date, 
                     :end_date)";
