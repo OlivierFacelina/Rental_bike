@@ -29,7 +29,7 @@ ob_start()?>
                 <div class="img_info">
         
                 </div>
-                <div class="info_text">
+                <div class="info_text">3
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Provident modi non molestiae alias? Ullam, debitis labore tenetur nam dolore officiis dolorem harum adipisci rem quae alias doloribus minima aperiam suscipit!
                 </div>
             </div>
