@@ -134,9 +134,95 @@ public function edit()
     }
     $title = 'Editer';
 
-    $this->render('users/edit', compact('user_details', 'title'));
-}
-public function delete()
+        $this->render('student/edit', compact('student', 'title'));
+    }
+
+    public function create()
+    {
+        $usersModel  = new UsersModel();
+
+        $firstname = '';
+        $lastname = '';
+        $login = '';
+        $password = '';
+        $role_id = '';
+        // try {
+        //     $user = get_user_by_id($db);
+        // } catch (Exception $ex) {
+        //     $_SESSION['notification']['danger'] = 'La mise à jour a échoué!';
+        //     header('Location: index.php');
+        //     exit();
+        // }
+        function randomGeneratedNumber()
+        {
+            // Générer un nombre aléatoire entre 0 et 9999
+            $randomNumber = str_pad(mt_rand(0, 9999), 4, '0', STR_PAD_LEFT);
+
+            return $randomNumber;
+        }
+
+        function generateUniqueLogin()
+        {
+            $usermodel = new UsersModel();
+            
+            // Déclarer la variable $newLogin avant de l'utiliser
+            $newLogin = randomGeneratedNumber();
+            
+            // Vérifier si le login est déjà utilisé
+            $uselogin = $usermodel->AlreadyUseLogin($newLogin);
+
+            // Si le login est déjà utilisé, générer un nouveau login unique
+            while ($uselogin) {
+                $newLogin = randomGeneratedNumber();
+                $uselogin = $usermodel->AlreadyUseLogin($newLogin);
+            }
+
+            return $newLogin;
+        }
+
+
+        // Vérifier qu'il existe une requête POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+            $_POST['password'] = $password;
+            $data = $_POST;
+            // Validation des données utilisateur
+            $args = array(
+                'firstname' => FILTER_SANITIZE_SPECIAL_CHARS,
+                'lastname' => FILTER_SANITIZE_SPECIAL_CHARS,
+                'login' => FILTER_SANITIZE_SPECIAL_CHARS,
+                'password' => '',
+                'role_id' => FILTER_SANITIZE_SPECIAL_CHARS,
+            );
+            // la validation retourne la valeur si elle est correcte sinon elle renvoit NULL
+            $validatedData = filter_var_array($data, $args);
+
+            // var_dump($validatedData);
+            // Explosion du tableau en variables
+            extract($validatedData);
+
+            // on rétire la clé student_id
+            // unset($validatedData['student_id']);
+
+            try {
+                // Mise à jour dans la bdd
+                if ($usersModel->create($validatedData)) {
+                    // Créer la notification a envoyé à l'utilisateur
+                    $_SESSION['notification']['success'] = 'L\'utilisateur  a  bien été enregistré!';
+
+                    // redirectToRoute('users.create');
+                    // exit();
+                }
+            } catch (Exception $ex) {
+                var_dump($ex);
+            }
+        }
+        $generateLogin = generateUniqueLogin();
+        $title = 'Ajouter un utilisateur';
+        $this->render('users/create', compact('title', 'generateLogin'));
+    }
+
+    public function delete()
     {
         $usersModel  = new UsersModel();
         // Suppression d'un étudiant | à faire avant l'affichage de liste pour que les données afficher soit à jour par rapport au contenu de la BDD
