@@ -170,6 +170,8 @@ class Users extends BaseController
         // Vérifier qu'il existe une requête POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+            password_hash($_POST["password"], PASSWORD_BCRYPT);
+            
             $data = $_POST;
             // Validation des données utilisateur
             $args = array(
