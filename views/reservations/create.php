@@ -1,4 +1,4 @@
-<div class="reservation-form">
+<!-- <div class="reservation-form">
     <h2>Réserver un vélo</h2>
     <form action="" method="post">
         <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
@@ -18,4 +18,4 @@
 
         <button type="submit" name="reserve_button">Réserver</button>
     </form>
-</div>
+</div> -->

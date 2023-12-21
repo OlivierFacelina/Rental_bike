@@ -28,10 +28,10 @@
                             <a href=""><img src="" alt="" srcset="">logo</a>
                         </div>
                         <div class="navigation__center">
-                            <a href="?path=/" target="_blank" rel="noopener noreferrer">Home</a>
-                            <a href="?path=bikes.index" target="_blank" rel="noopener noreferrer">Nos vélos</a>
-                            <!-- <a href="" target="_blank" rel="noopener noreferrer">Réserver</a> -->
-                            <a href="" target="_blank" rel="noopener noreferrer"> A propos </a>
+                            <a href="?path=/"  rel="noopener noreferrer">Home</a>
+                            <a href="?path=bikes.index"  rel="noopener noreferrer">Nos vélos</a>
+                            <!-- <a href=""  rel="noopener noreferrer">Réserver</a> -->
+                            <a href=""  rel="noopener noreferrer"> A propos </a>
                         </div>
                         <div class="navigation__right">
                             <button type="button" class="btn_secondary"><a href="?path=users.details">Mes réservations</a></button>

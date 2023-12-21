@@ -17,7 +17,7 @@ public function index()
     $this->render('bikes/index', compact('bikes', 'title'));
 }
 
-public function edit()
+public function find()
 {
     $bike_id = $_GET['bike_id'] ?? null;
 

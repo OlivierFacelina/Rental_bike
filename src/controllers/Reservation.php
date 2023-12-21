@@ -45,14 +45,12 @@ class Reservation extends BaseController
 
         $reservations = $reservationModel->all();
 
-        $user_id = 0;
-        $bike_id = 0;
+        $user_id = $_SESSION["user_id"];
+        $bike_id = $_POST["bike_id"] ?? 0;
         $res_num = 0;
-        $res_date = '';
         $start_date = '';
         $end_date = '';
-        $status = '';
-
+        var_dump($_POST);
         // Vérifier qu'il existe une requête POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -84,15 +82,17 @@ class Reservation extends BaseController
                     // Créer la notification a envoyé à l'utilisateur
                     // $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
                     // header('Location: index.php');
+                    // redirectToRoute('/');
                     var_dump("Tout fonctionne");
-                    exit();
+
+                    // exit();
                 }
             } catch (Exception $ex) {
                 var_dump($ex);
             }
         }
         $title = 'Ajouter un vélo';
-        $this->render('reservations/create', compact('title', 'reservations'));
+        $this->render('home', compact('title', 'reservations'));
     }
 
     public function delete()
