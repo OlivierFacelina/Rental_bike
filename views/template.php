@@ -1,3 +1,7 @@
+<?php 
+// session_start() 
+?>
+
 <!doctype html>
 <html lang="fr" data-bs-theme="dark">
 
@@ -7,29 +11,37 @@
     <title>
         <?= $title ?>
     </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/styles/css/style.css">
+    <script defer src="./assets/js/script.js"></script>
 </head>
 
 <body>
-    <header class="container">
-        <nav class="navigation d-flex justify-content-between py-4">
-            <div class="navigation__left">
-                <a href=""><img src="" alt="" srcset="">logo</a>
-            </div>
-            <div class="navigation__center">
-                <a href="http://" target="_blank" rel="noopener noreferrer">Home</a>
-                <a href="http://" target="_blank" rel="noopener noreferrer">Nos vélos</a>
-                <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
-            </div>
-            <div class="navigation__right">
-                <button type="button"><a href="?path=reservation.index">Réservation</a></button>
-                <button type="button"><a href="?path=users.index">Connexion</a></button>
-            </div>
-        </nav>
-    </header>
     <main>
+        <header class="container">
+                <nav class="navigation d-flex justify-content-between py-4">
+                        <div class="navigation__left">
+                            <a href=""><img src="" alt="" srcset="">logo</a>
+                        </div>
+                        <div class="navigation__center">
+                            <a href="http://" target="_blank" rel="noopener noreferrer">Home</a>
+                            <a href="http://" target="_blank" rel="noopener noreferrer">Nos vélos</a>
+                            <a href="http://" target="_blank" rel="noopener noreferrer"> A propos </a>
+                        </div>
+                        <div class="navigation__right">
+                            <button type="button"><a href="?path=users.details">Mes réservations</a></button>
+                            <?php if (isset($_SESSION['user_id'])) { ?>
+                            <button type="button"><a href="?path=home">Déconnexion</a></button>
+                            <?php } else {?>
+                                <button type="button"><a href="?path=users.index">Connexion</a></button>
+                            <?php }?>
+                        </div>
+                </nav>
+        </header>
         <?= $content ?>
     </main>
     <footer>
