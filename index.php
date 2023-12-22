@@ -32,6 +32,7 @@ $route = match ($path) {
     'users.edit' => $usersController->edit(),
     'users.delete' => $usersController->delete(),
     'users.details'=> $usersController-> find(),
+    'users.create'=> $usersController-> create(),
     default => '404'
 };
 // users.details_none

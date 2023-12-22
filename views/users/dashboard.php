@@ -6,8 +6,8 @@
     <h3>Bonjour <?= $user_connected_info-> lastname . ' '.$user_connected_info -> firstname ?>,</h3>  
     <div class="dashboard_head">
         <div class="row d-flex justify-content-center px-5 text-center align-content-cneter">
-            <div class="col-2 bg-success"><h6 >Ajouter un utilisateur </h6></div>
-            <div class="col-3"><h5>Gestions des utilisateur</h5></div>
+            <div class="col-2 bg-success"><a href="?path=users.create">Ajouetr un utilisateur</a></div>
+            <div class="col-3"><a href="?path=reservations.index">Gestion des reservations</a></div>
             <div class="col-1 bg-success"><h6>Login : <?= $user_connected_info-> login ?></h6></div>
             <div class="col-3 ">  <a class="btn btn-outline-danger" href="?path=home">Deconnexion</a></div>
         </div>

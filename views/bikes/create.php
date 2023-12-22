@@ -3,7 +3,7 @@
 <div>
     <nav class="navigation d-flex justify-content-between py-4">
         <button class="navigation__left btn btn-success">
-            <a href="">
+            <a href="?path=reservations.index">
                 Gestion des réservations
             </a>
         </button>
