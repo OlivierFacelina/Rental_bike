@@ -72,20 +72,10 @@ class Reservation extends BaseController
             // Explosion du tableau en variables
             extract($validatedData);
 
-            // // on rétire la clé student_id
-            // unset($validatedData['student_id']);
-            // // var_dump($validatedData);
-
             try {
                 // Mise à jour dans la bdd
                 if ($reservationModel->create($validatedData)) {
-                    // Créer la notification a envoyé à l'utilisateur
-                    // $_SESSION['notification']['success'] = 'L\'étudient  a  bien été enregistré!';
-                    // header('Location: index.php');
-                    // redirectToRoute('/');
-                    var_dump("Tout fonctionne");
-
-                    // exit();
+                    // var_dump("C'est ok");
                 }
             } catch (Exception $ex) {
                 var_dump($ex);

@@ -1,7 +1,14 @@
-@use './bases' as b;
-@use './layout' as l;
-@use './mixin' as m;
-@use './variables' as v;
-@import './home.scss';
-@import './login.scss';
-@import './dashboard.scss';
+@use './abstract/mixin' as m;
+@use './abstract/variables' as v;
+
+@use './bases/reset' as b;
+
+@use './components/_header' as h;
+@use './components/_footer' as f;
+
+@use  './pages/_dashboard.scss';
+@use  './pages/_home.scss';
+@use './pages/_login.scss';
+@use './pages/_reservation.scss';
+@use './pages/_bikes';
+@use './pages/users';

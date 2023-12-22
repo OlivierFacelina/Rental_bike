@@ -1,10 +1,10 @@
 <?php ob_start();
 ?>
 <div>
-    <nav class="navigation d-flex justify-content-between py-4">
+    <nav class="navigation d-flex justify-content-around py-4">
         <button class="navigation__left btn btn-success">
             <a href="?path=users.dashboard">
-                Gestion des utilisateur
+                Gestion des utilisateurs
             </a>
         </button>
         <h1 class="navigation__center">Ajout d'un utilisateur</h1>

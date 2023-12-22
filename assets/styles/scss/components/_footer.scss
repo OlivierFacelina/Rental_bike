@@ -1,0 +1,60 @@
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #82B479;
+    margin-top: 5vh;
+    padding: 3vh 0;
+    height: 30vh;
+
+    &__logo img {
+        width: 80px; /* Ajustez la taille du logo selon vos besoins */
+    }
+
+    &__link {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 1.5vh;
+    }
+
+    &__link a {
+        font-size: 18px;
+        text-decoration: none;
+        color: white;
+        cursor: pointer;
+        margin-bottom: 2vh;
+        transition: color 0.3s ease-in-out;
+    }
+
+    &__link a:hover {
+        color: black; 
+    }
+
+    &__hours {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-size: 18px;
+        margin-top: 1.5vh;
+    }
+
+    .hours-column {
+        text-align: center;
+    }
+}
+
+p {
+    font-size: 1.03em;
+}
+
+h6 {
+    font-size: 1.1em;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 1.5vh;
+    color: white;
+}

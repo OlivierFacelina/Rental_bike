@@ -1,4 +1,5 @@
 @charset "UTF-8";
+/* Définition du mixin avec des paramètres */
 * {
   margin: 0;
   padding: 0;
@@ -8,10 +9,6 @@
 section {
   width: 90%;
   margin: 3vh auto;
-}
-
-.reservation {
-  background-color: #575B62;
 }
 
 header {
@@ -26,6 +23,9 @@ header .navigation a {
   text-decoration: none;
   font-size: 1.03em;
   text-align: center;
+}
+header .navigation__left img {
+  width: 5vw;
 }
 header .navigation__center a {
   margin: 0 1vw;
@@ -63,37 +63,73 @@ header .navigation .btn_primary a {
   color: white;
 }
 
-footer {
+.footer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   background-color: #82B479;
   margin-top: 5vh;
   padding: 3vh 0;
+  height: 30vh;
 }
-footer p {
-  font-size: 1.03em;
+.footer__logo img {
+  width: 80px; /* Ajustez la taille du logo selon vos besoins */
 }
-footer h6 {
-  font-size: 1.1em;
-}
-footer .columns_footer {
+.footer__link {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  align-items: start;
+  align-items: center;
+  margin-top: 1.5vh;
 }
-footer .copyright {
+.footer__link a {
+  font-size: 18px;
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  margin-bottom: 2vh;
+  transition: color 0.3s ease-in-out;
+}
+.footer__link a:hover {
+  color: black;
+}
+.footer__hours {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 18px;
+  margin-top: 1.5vh;
+}
+.footer .hours-column {
   text-align: center;
 }
 
-.bikes .card {
-  --bs-card-border-color: rgba(165, 183, 162, 0.271);
-}
-.bikes .card-img-top {
-  object-fit: contain !important;
-}
-.bikes__title {
-  text-transform: uppercase;
+p {
+  font-size: 1.03em;
 }
 
-/* Définition du mixin avec des paramètres */
+h6 {
+  font-size: 1.1em;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 1.5vh;
+  color: white;
+}
+
+.dashboard__title {
+  margin-bottom: 10vh;
+}
+.dashboard__head .add-user a, .dashboard__head .index-reservation a {
+  background-color: #82B479;
+  text-decoration: none;
+  color: white;
+}
+.dashboard__head .add-user a:hover, .dashboard__head .index-reservation a:hover {
+  color: black;
+}
+
 #banner {
   display: flex;
   justify-content: space-between;
@@ -139,8 +175,135 @@ footer .copyright {
   padding: 1vh 2vw;
 }
 
-#dashboard h4 {
+.reservation {
+  background-color: #575B62;
+}
+
+.reservation-form {
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 5vh;
+  padding: 20px;
+  background-color: #82B479;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type=date] {
+  color: white;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.error {
+  color: #d9534f;
+}
+
+.show_reservation {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #82B479;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.show_reservation h2 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.show_reservation h5 {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.reservation {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  height: 30vh;
+}
+
+.bike_img img {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.bikereservation_desc p {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* Style pour le message si l'utilisateur n'est pas connecté */
+.show_reservation h1 {
+  font-size: 24px;
+  text-align: center;
+  color: #d9534f; /* rouge bootstrap */
+}
+
+.show_reservation a.btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #5bc0de; /* bleu bootstrap */
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.show_reservation a.btn:hover {
+  background-color: #46b8da;
+}
+
+.bikes .card {
+  --bs-card-border-color: rgba(165, 183, 162, 0.271);
+}
+.bikes .card-img-top {
+  object-fit: contain !important;
+}
+.bikes__title {
   text-transform: uppercase;
+}
+
+.navigation__left a {
+  text-decoration: none;
+  color: white;
 }
 
 /*# sourceMappingURL=style.css.map */

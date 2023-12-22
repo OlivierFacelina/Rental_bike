@@ -1,0 +1,16 @@
+.dashboard {
+
+    &__title {
+        margin-bottom: 10vh;
+    }
+
+    &__head .add-user a, &__head .index-reservation a {
+        background-color: #82B479;
+        text-decoration: none;
+        color: white;
+    }
+
+    &__head .add-user a:hover, &__head .index-reservation a:hover {
+        color: black;
+    }
+}

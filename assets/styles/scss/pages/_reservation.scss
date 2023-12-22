@@ -1,0 +1,121 @@
+// ------------------- Style au moment où l'on souhaite réserver un vélo ----------------
+
+.reservation {
+    background-color: #575B62;
+}
+
+.reservation-form {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 5vh;
+    padding: 20px;
+    background-color: #82B479;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="date"] {
+    color: white;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: #d9534f; 
+}
+
+// ------------- Style au moment d'afficher les réservations de l'utilisateur ------------
+
+.show_reservation {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #82B479;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.show_reservation h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.show_reservation h5 {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.reservation {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 30vh;
+}
+
+.bike_img img {
+    max-width: 100px;
+    max-height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.bikereservation_desc p {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Style pour le message si l'utilisateur n'est pas connecté */
+.show_reservation h1 {
+    font-size: 24px;
+    text-align: center;
+    color: #d9534f; /* rouge bootstrap */
+}
+
+.show_reservation a.btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #5bc0de; /* bleu bootstrap */
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.show_reservation a.btn:hover {
+    background-color: #46b8da;
+}
+
+

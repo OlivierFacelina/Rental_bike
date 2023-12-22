@@ -25,11 +25,14 @@
         <header class="container header">
                 <nav class="navigation">
                         <div class="navigation__left">
-                            <a href=""><img src="" alt="" srcset="">logo</a>
+                            <a href=""><img src="./assets/img/logo.png" class="" alt="" srcset=""></a>
                         </div>
                         <div class="navigation__center">
                             <a href="?path=/"  rel="noopener noreferrer">Home</a>
                             <a href="?path=bikes.index"  rel="noopener noreferrer">Nos vélos</a>
+                            <?php if (isset($_SESSION['user_id'])) { ?> 
+                                <a href="?path=users.dashboard">Tableau de bord</a>
+                            <?php } ?> 
                             <!-- <a href=""  rel="noopener noreferrer">Réserver</a> -->
                             <a href=""  rel="noopener noreferrer"> A propos </a>
                         </div>
@@ -45,35 +48,39 @@
         </header>
         <?= $content ?>
     </main>
+    
     <footer>
-        <div class="columns_footer">
-                <div class="footer__left">
-                    <div class="logo_footer">
-                        <img src="" alt="logo" srcset="">
-                    </div>
+        <div class="footer columns_footer">
+            <div class="footer__logo">
+                <div class="logo_footer">
+                    <img src="./assets/img/logo.png" alt="logo" srcset="">
                 </div>
-                <div class="footer__center">
-                    
-                    <h6> Navigation</h6>
-                    <p>Home</p>
-                    <p>Reservation</p>
-                    <p>Nos vélos</p>
-                    <p>About us</p>
-                </div>
-                <div class="footer__right">
-                <h6> Horraires</h6>
+            </div>
+            <div class="footer__link">
+                <a href="?path=/">Home</a>
+                <a href="?path=reservations.index">Reservation</a>
+                <a href="?path=bikes.index">Nos vélos</a>
+                <a href="#">About us</a>
+            </div>
+            <div class="footer__hours">
+                <div class="hours-column">
+                    <h6>Horaires</h6>
                     <p>En semaine de 8h à 20h</p>
+                </div>
+                <div class="hours-column">
                     <h6>Confidentialité</h6>
-                    <p> <p>Politique de Confidentialité</p></p>
+                    <p>Politique de Confidentialité</p>
                     <p>CGU</p>
                 </div>
+            </div>
         </div>
-        <!-- <div class="copyright">
-            <p>© 2021 - Tous droits réservés</p>
-        </div> -->
+        <div class="copyright">
+            <p>© La Manu 2023 - Tous droits réservés</p>
+        </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="./assets/js/app.js"></script> --
+    <script src="./assets/js/app.js"></script>
 </body>
 
 </html>

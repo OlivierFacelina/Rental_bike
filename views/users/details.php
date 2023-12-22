@@ -5,18 +5,17 @@
             <h5 class="text-center"> Bienvenue sur Votre page de reservation de Vélos </h5>
             <?php foreach ($details_reservations as $reservation): ?>
             <div class="reservation">
-                       <div class="bike_img">
-                        <img src="./assets/img/<?= $reservation -> photo ?>" alt="image vélo" srcset="">
-                       </div>
-                       <div class="bikereservation_desc">
-                                <p> Numéro du vélo:  <?= $reservation -> registration_number ?></p>
-                                <p>numéro de reservation : <?= $reservation -> res_num ?></p>
-                                <p>Date de reservation : <?= $reservation -> res_date ?></p>
-                                <p>Début de reservation : <?= $reservation -> start_date ?></p>
-                                <p>Fin de reservation : <?= $reservation -> end_date ?></p>
-                                <p>Statut de la reservation : <?= $reservation -> end_date ?></p>
-
-                       </div>
+                <div class="bike_img">
+                    <img src="./assets/img/<?= $reservation -> photo ?>" alt="image vélo" srcset="">
+                </div>
+                <div class="bikereservation_desc">
+                    <p><b>Numéro du vélo :</b>  <?= $reservation -> registration_number ?></p>
+                    <p><b>Numéro de reservation :</b> <?= $reservation -> res_num ?></p>
+                    <p><b>Date de reservation :</b> <?= $reservation -> res_date ?></p>
+                    <p><b>Début de reservation :</b> <?= $reservation -> start_date ?></p>
+                    <p><b>Fin de reservation :</b> <?= $reservation -> end_date ?></p>
+                    <p><b>Statut de la reservation :</b> <?= $reservation -> end_date ?></p>
+                </div>
             </div>
             <?php endforeach; ?>
     </div>

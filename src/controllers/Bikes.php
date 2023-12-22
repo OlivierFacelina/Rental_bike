@@ -79,7 +79,6 @@ public function create()
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        var_dump('gqgzrhzh3');
         $data = $_POST;
         $args = array(
             'registration_number' => FILTER_SANITIZE_SPECIAL_CHARS,
