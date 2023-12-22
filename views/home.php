@@ -7,7 +7,6 @@ ob_start()?>
                     <h2>Lorem Ipsum</h2>
                     <h3> <span>Lorem ipsum dolor,</span> sit amet <br>consectetur adipisicing elit Repudiandae.<br> Repudiandae <span>consequuntur amet.</span></h3>
                     <p>Lorem ipsum dolor, sit amet consectetur</p>
-                    <button class="btn btn-success"> Réserver</button>
                 </div>
                 <div class="banner_img">
                     <img src="./assets/img/7732616_5243.svg" alt="" width="650px">
